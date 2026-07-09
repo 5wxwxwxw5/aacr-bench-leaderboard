@@ -1,0 +1,7 @@
+submission_name: "Test Run"
+reviewer: ocr
+model: gpt-4o-mini
+org: "Open-Leaderboard Demo"
+url: "https://github.com/alibaba/aacr-bench"
+contact: "@your-github-handle"
+date: "2026-07-09"
