@@ -17,11 +17,11 @@ jobs:
     environment: evaluation      # 在此 environment 配置 JUDGE_* secrets 并限定审批者
     steps:
       # 检出 PR 分支代码（含提交的 submissions/）。已由 maintainer 审核代码无害后打标签。
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
 
@@ -67,7 +67,7 @@ jobs:
 
       - name: Comment metrics on PR
         if: always()
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const fs = require('fs');
