@@ -25,11 +25,11 @@ jobs:
       - name: Install deps
         run: pip install -r evaluation/requirements.txt
 
-      # 白名单守卫：贡献者 PR 只允许改动
-      #   1) submissions/<id>/**   （单个 submission 目录）
-      #   2) leaderboard/data/<id>.json   （evaluate 用 main 可信脚本重算后写回，且 id 必须与 1 一致）
-      # 其它路径（evaluation/ benchmark/ schema/ .github/ leaderboard/site/ 或他人目录）一律判失败。
-      # data 文件即便被用户自带也会在 evaluate 阶段被真实结果覆盖，故仅做「路径 + id 一致性」约束。
+      # 白名单守卫：贡献者 PR 只允许改动单个 submissions/<id>/** 目录。
+      # 结果文件 leaderboard/data/<id>.json 由 evaluate 用 main 可信脚本重算后直接写入 main，
+      # 全程不经过 PR 分支；因此 PR 中出现任何 leaderboard/data/** 改动一律判失败，
+      # 从源头杜绝用户自带 / 伪造 / 事后覆盖分数文件。其它路径（evaluation/ benchmark/
+      # schema/ .github/ leaderboard/site/ 或他人目录）同样判失败。
       - name: Whitelist guard (paths)
         id: guard
         run: |
@@ -39,15 +39,11 @@ jobs:
           echo "$files"
           bad=""
           sub_ids=""
-          data_ids=""
           while IFS= read -r f; do
             [ -z "$f" ] && continue
             case "$f" in
               submissions/*/*)
                 sub_ids="$sub_ids $(echo "$f" | awk -F/ '{print $2}')"
-                ;;
-              leaderboard/data/*.json)
-                data_ids="$data_ids $(basename "$f" .json)"
                 ;;
               *)
                 bad="$bad$f\n"
@@ -55,13 +51,11 @@ jobs:
             esac
           done <<< "$files"
           uniq_sub=$(echo "$sub_ids" | tr ' ' '\n' | sed '/^$/d' | sort -u)
-          uniq_data=$(echo "$data_ids" | tr ' ' '\n' | sed '/^$/d' | sort -u)
           n_sub=$(echo "$uniq_sub" | sed '/^$/d' | wc -l | tr -d ' ')
-          n_data=$(echo "$uniq_data" | sed '/^$/d' | wc -l | tr -d ' ')
           msg=""
           fail=0
           if [ -n "$bad" ]; then
-            msg="${msg}❌ 以下文件不在允许范围内（仅可改动 \`submissions/<你的id>/**\` 与 \`leaderboard/data/<你的id>.json\`）：\n\`\`\`\n${bad}\`\`\`\n"
+            msg="${msg}❌ 以下文件不在允许范围内（仅可改动单个 \`submissions/<你的id>/**\`）：\n\`\`\`\n${bad}\`\`\`\n结果文件 \`leaderboard/data/*\` 由复算自动写入 main，请勿在 PR 中包含。\n"
             fail=1
           fi
           if [ "$n_sub" -gt 1 ]; then
@@ -71,15 +65,6 @@ jobs:
           if [ "$n_sub" -eq 0 ]; then
             msg="${msg}❌ 未检测到任何 \`submissions/<你的id>/**\` 改动，PR 必须包含一个 submission。\n"
             fail=1
-          fi
-          # data 文件的 id 必须与唯一的 submission id 一致
-          if [ "$n_sub" -eq 1 ] && [ "$n_data" -ge 1 ]; then
-            for d in $uniq_data; do
-              if [ "$d" != "$uniq_sub" ]; then
-                msg="${msg}❌ 结果文件 \`leaderboard/data/${d}.json\` 与提交目录 \`submissions/${uniq_sub}/\` 的 id 不一致。\n"
-                fail=1
-              fi
-            done
           fi
           if [ "$fail" -eq 0 ]; then
             msg="✅ 路径检查通过：仅改动了 \`submissions/${uniq_sub}/**\`。"

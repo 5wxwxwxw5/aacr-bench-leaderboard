@@ -6,14 +6,15 @@ name: Evaluate Submission
 # 防篡改设计：
 # - 评测脚本 / benchmark 一律从 base 分支（main）检出，用户在 PR 里对
 #   evaluation/ benchmark/ 的任何改动都不会被执行；只有 submissions/ 数据取自 PR。
-# - 复算结果 leaderboard/data/<id>.json 由本 Action 用 main 的可信脚本重算后，
-#   commit 回 PR 分支，随 PR 一起合并。即便用户在 PR 里自带该文件也会被真实结果覆盖。
+# - 复算结果 leaderboard/data/<id>.json 由本 Action 用 main 的可信脚本重算后，用
+#   maintainer 的 PAT（secrets.EVAL_PUSH_TOKEN）直接提交到 main。data 文件全程不经过
+#   PR 分支，用户无法自带 / 伪造 / 事后覆盖该文件。写入 main 会触发 publish 更新榜单。
 on:
   pull_request_target:
     types: [labeled]
 
 permissions:
-  contents: write
+  contents: read
   pull-requests: write
 
 jobs:
@@ -22,15 +23,18 @@ jobs:
     runs-on: ubuntu-latest
     environment: evaluation      # 在此 environment 配置 JUDGE_* secrets 并限定审批者
     steps:
-      # 1) 检出 base 分支（main）的可信代码：评测脚本 + benchmark（只读，不写回）。
-      - name: Checkout trusted scripts (base branch)
+      # 1) 检出 base 分支（main）的可信代码：评测脚本 + benchmark，同时作为写回 main 的工作区。
+      #    用 EVAL_PUSH_TOKEN（maintainer PAT）检出，使后续 push main 以 maintainer 身份进行。
+      - name: Checkout trusted main (scripts + write target)
         uses: actions/checkout@v5
         with:
           ref: ${{ github.event.pull_request.base.ref }}
+          fetch-depth: 0
+          token: ${{ secrets.EVAL_PUSH_TOKEN }}
           path: main-src
 
-      # 2) 检出 PR head 分支：既提供 submissions/ 数据，也是结果回写目标。
-      - name: Checkout PR branch (submission data + write target)
+      # 2) 检出 PR head 分支：仅取其 submissions/ 数据，只读，不执行其中任何脚本。
+      - name: Checkout PR branch (submission data)
         uses: actions/checkout@v5
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
@@ -57,7 +61,7 @@ jobs:
           echo "$changed" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
 
-      # 用 main 的脚本 + benchmark 评测 PR 的 submissions，结果写入 pr-src 以便回写 PR 分支。
+      # 用 main 的脚本 + benchmark 评测 PR 的 submissions，结果写入 main-src 工作区。
       - name: Grade (recompute metrics)
         env:
           JUDGE_BASE_URL: ${{ secrets.JUDGE_BASE_URL }}
@@ -71,20 +75,33 @@ jobs:
             python main-src/evaluation/grade.py \
               --submission "pr-src/$dir" \
               --benchmark main-src/benchmark/aacr_bench.jsonl \
-              --out "pr-src/leaderboard/data/$sid.json" | tee -a "$report_file"
+              --out "main-src/leaderboard/data/$sid.json" | tee -a "$report_file"
           done
           echo "REPORT_FILE=$report_file" >> "$GITHUB_ENV"
 
-      - name: Commit metrics back to PR branch
-        working-directory: pr-src
+      # 用 maintainer PAT 直接提交到 main。rebase 重试规避并发推送导致的 non-fast-forward。
+      - name: Commit metrics to main
+        working-directory: main-src
         run: |
           git config user.name "aacr-bench-bot"
           git config user.email "bot@users.noreply.github.com"
           git add leaderboard/data/*.json || true
-          if ! git diff --cached --quiet; then
-            git commit -m "chore(eval): recomputed metrics for PR #${{ github.event.pull_request.number }}"
-            git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          if git diff --cached --quiet; then
+            echo "无新结果文件，跳过提交。"
+            exit 0
           fi
+          git commit -m "chore(eval): recomputed metrics for PR #${{ github.event.pull_request.number }}"
+          for attempt in 1 2 3; do
+            if git push origin HEAD:${{ github.event.pull_request.base.ref }}; then
+              echo "已推送到 ${{ github.event.pull_request.base.ref }}。"
+              exit 0
+            fi
+            echo "推送被拒，尝试 rebase 后重试（$attempt/3）…"
+            git fetch origin ${{ github.event.pull_request.base.ref }}
+            git rebase origin/${{ github.event.pull_request.base.ref }}
+          done
+          echo "多次重试仍无法推送到 main。" >&2
+          exit 1
 
       - name: Comment metrics on PR
         if: always()
@@ -97,5 +114,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: "🏁 **复算结果**\n\n```\n" + body + "\n```",
+              body: "🏁 **复算结果**（已写入 " + context.payload.pull_request.base.ref + "）\n\n```\n" + body + "\n```",
             });
