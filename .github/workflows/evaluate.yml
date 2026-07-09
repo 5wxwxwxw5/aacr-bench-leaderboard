@@ -16,10 +16,13 @@ jobs:
     runs-on: ubuntu-latest
     environment: evaluation      # 在此 environment 配置 JUDGE_* secrets 并限定审批者
     steps:
-      # 检出 PR 分支代码（含提交的 submissions/）。已由 maintainer 审核代码无害后打标签。
+      # 检出 PR head 分支本身（含提交的 submissions/），以便把复算结果 commit 回该分支。
+      # 已由 maintainer 审核代码无害后打标签触发。
       - uses: actions/checkout@v5
         with:
-          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
 
       - uses: actions/setup-python@v6
         with:
