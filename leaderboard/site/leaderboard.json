@@ -1,0 +1,31 @@
+{
+  "benchmark": "AACR-Bench",
+  "generated_at": "2026-07-09T03:01:41.481322+00:00",
+  "count": 1,
+  "entries": [
+    {
+      "submission_id": "example-ocr",
+      "submission_name": "Example OCR Baseline",
+      "reviewer": "ocr",
+      "model": "gpt-4o-mini",
+      "org": "Open-Leaderboard Demo",
+      "url": "https://github.com/alibaba/aacr-bench",
+      "date": "2026-07-09",
+      "semantic_f1": 0.0026,
+      "semantic_precision": 0.5,
+      "semantic_recall": 0.0013,
+      "line_f1": 0.0026,
+      "line_precision": 0.5,
+      "line_recall": 0.0013,
+      "submitted_instances": 2,
+      "total_instances": 196,
+      "missing_instances": 194,
+      "avg_duration_seconds": 22.05,
+      "avg_tokens": 12250,
+      "avg_input_tokens": 11200,
+      "avg_output_tokens": 1050,
+      "judge_mode": "mock",
+      "rank": 1
+    }
+  ]
+}

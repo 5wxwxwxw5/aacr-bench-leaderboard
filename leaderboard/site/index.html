@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AACR-Bench Leaderboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>AACR-Bench Leaderboard</h1>
+    <p class="subtitle">
+      开源代码评审基准 · 提 PR 上传本地评测结果 · GitHub Action 统一复算
+    </p>
+    <p class="meta-line">
+      主指标 <strong>Semantic F1</strong> · 缺失样本计入 Recall/F1 分母 ·
+      平均耗时/Token 仅按实际提交样本计
+    </p>
+  </header>
+
+  <main>
+    <div id="status" class="status">加载中…</div>
+    <div class="table-wrap">
+      <table id="board">
+        <thead>
+          <tr>
+            <th data-key="rank" class="num">#</th>
+            <th data-key="submission_name">Model / Submission</th>
+            <th data-key="semantic_f1" class="num sortable active">Sem-F1</th>
+            <th data-key="semantic_precision" class="num sortable">Precision</th>
+            <th data-key="semantic_recall" class="num sortable">Recall</th>
+            <th data-key="line_f1" class="num sortable">Line-F1</th>
+            <th data-key="submitted_instances" class="num sortable">Coverage</th>
+            <th data-key="avg_duration_seconds" class="num sortable">Avg Time</th>
+            <th data-key="avg_tokens" class="num sortable">Avg Tokens</th>
+            <th data-key="date" class="sortable">Date</th>
+          </tr>
+        </thead>
+        <tbody id="board-body"></tbody>
+      </table>
+    </div>
+    <p class="footer-note">
+      点击任意行查看该提交的元信息与逐样本匹配明细。点击可排序列的表头可切换排序。
+    </p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

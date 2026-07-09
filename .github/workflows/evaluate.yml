@@ -1,0 +1,80 @@
+name: Evaluate Submission
+
+# 仅当 maintainer 给 PR 打上 ready-to-eval 标签时触发。
+# 用 pull_request_target 以便访问仓库 secrets（JUDGE_*），并用 environment 保护。
+on:
+  pull_request_target:
+    types: [labeled]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  evaluate:
+    if: github.event.label.name == 'ready-to-eval'
+    runs-on: ubuntu-latest
+    environment: evaluation      # 在此 environment 配置 JUDGE_* secrets 并限定审批者
+    steps:
+      # 检出 PR 分支代码（含提交的 submissions/）。已由 maintainer 审核代码无害后打标签。
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install -r evaluation/requirements.txt
+
+      - name: Detect changed submission dirs
+        id: detect
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
+          changed=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- submissions/ \
+            | awk -F/ '{print $1"/"$2}' | sort -u)
+          echo "dirs<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$changed" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Grade (recompute metrics)
+        env:
+          JUDGE_BASE_URL: ${{ secrets.JUDGE_BASE_URL }}
+          JUDGE_API_KEY: ${{ secrets.JUDGE_API_KEY }}
+          JUDGE_MODEL: ${{ secrets.JUDGE_MODEL }}
+        run: |
+          report_file=$(mktemp)
+          for dir in ${{ steps.detect.outputs.dirs }}; do
+            [ -d "$dir" ] || continue
+            sid=$(basename "$dir")
+            python evaluation/grade.py \
+              --submission "$dir" \
+              --benchmark benchmark/aacr_bench.jsonl \
+              --out "leaderboard/data/$sid.json" | tee -a "$report_file"
+          done
+          echo "REPORT_FILE=$report_file" >> "$GITHUB_ENV"
+
+      - name: Commit metrics back to PR branch
+        run: |
+          git config user.name "aacr-bench-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add leaderboard/data/*.json || true
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: add recomputed metrics for submission"
+            git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          fi
+
+      - name: Comment metrics on PR
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync(process.env.REPORT_FILE, 'utf8') || '（无复算输出）';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: "🏁 **复算结果**\n\n```\n" + body + "\n```",
+            });

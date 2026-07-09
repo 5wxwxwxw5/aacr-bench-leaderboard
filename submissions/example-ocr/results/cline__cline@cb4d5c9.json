@@ -1,0 +1,30 @@
+{
+  "instance_id": "cline__cline@cb4d5c9",
+  "repo": "cline/cline",
+  "base_commit": "4d8bdf29458db722a2bce1dfacc50771959b32fa",
+  "head_commit": "cb4d5c90460885942cbbae0298b95f4ee5682086",
+  "started_at": "2026-06-04T07:01:48Z",
+  "duration_seconds": 22.55,
+  "review": {
+    "summary": {
+      "total_tokens": 12500,
+      "input_tokens": 11400,
+      "output_tokens": 1100
+    },
+    "comments": [
+      {
+        "path": "src/api/providers/openai.ts",
+        "content": "The condition for Azure API shape detection was incorrectly modified to check the base URL for 'deepseek'; it should verify 'azure.com' in the base URL while excluding DeepSeek models via the model ID to prevent duplicated logic.",
+        "start_line": 17,
+        "end_line": 17
+      },
+      {
+        "path": "src/api/providers/openai.ts",
+        "content": "Consider adding a unit test for this branch to prevent regressions.",
+        "start_line": 10,
+        "end_line": 10
+      }
+    ],
+    "stderr": ""
+  }
+}

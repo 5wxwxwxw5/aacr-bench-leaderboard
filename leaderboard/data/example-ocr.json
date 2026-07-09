@@ -1,0 +1,2002 @@
+{
+  "submission_id": "example-ocr",
+  "meta": {
+    "submission_name": "Example OCR Baseline",
+    "reviewer": "ocr",
+    "model": "gpt-4o-mini",
+    "org": "Open-Leaderboard Demo",
+    "url": "https://github.com/alibaba/aacr-bench",
+    "contact": "@your-github-handle",
+    "date": "2026-07-09"
+  },
+  "summary": {
+    "total_instances": 196,
+    "submitted_instances": 2,
+    "missing_instances": 194,
+    "expected_notes": 1505,
+    "generated_notes": 4,
+    "matched_semantic_notes": 2,
+    "matched_line_notes": 2,
+    "semantic_precision": 0.5,
+    "semantic_recall": 0.0013,
+    "semantic_f1": 0.0026,
+    "line_precision": 0.5,
+    "line_recall": 0.0013,
+    "line_f1": 0.0026,
+    "total_duration_seconds": 44.1,
+    "avg_duration_seconds": 22.05,
+    "total_input_tokens": 22400,
+    "total_output_tokens": 2100,
+    "avg_input_tokens": 11200,
+    "avg_output_tokens": 1050,
+    "avg_tokens": 12250
+  },
+  "missing_instance_ids": [
+    "valkey-io__valkey@36f37c0",
+    "dbeaver__dbeaver@ed40132",
+    "immich-app__immich@5f47591",
+    "n8n-io__n8n@f523897",
+    "google-gemini__gemini-cli@0fa1bd7",
+    "cline__cline@f098af0",
+    "dbeaver__dbeaver@8224826",
+    "microsoft__typescript-go@45c0de9",
+    "opencv__opencv@e3e45c8",
+    "infiniflow__ragflow@a63caa1",
+    "CherryHQ__cherry-studio@5644b00",
+    "filamentphp__filament@912f080",
+    "laravel__framework@180c25f",
+    "astral-sh__uv@61b521f",
+    "ClickHouse__ClickHouse@d67628c",
+    "comfyanonymous__ComfyUI@0bb6023",
+    "alibaba__spring-ai-alibaba@3555a95",
+    "symfony__symfony@6478705",
+    "keycloak__keycloak@21d4538",
+    "comfyanonymous__ComfyUI@4dcd698",
+    "gofr-dev__gofr@2c0c099",
+    "keycloak__keycloak@805c204",
+    "ollama__ollama@498792c",
+    "alibaba__spring-ai-alibaba@4bc7305",
+    "dbeaver__dbeaver@dc67ca7",
+    "langflow-ai__langflow@9513d15",
+    "mpv-player__mpv@dbd327d",
+    "elastic__elasticsearch@5e318eb",
+    "n8n-io__n8n@77ece2e",
+    "elastic__elasticsearch@bef908c",
+    "linera-io__linera-protocol@3535ddb",
+    "ollama__ollama@0b52f18",
+    "ClickHouse__ClickHouse@40a4654",
+    "PowerShell__PowerShell@ec952ce",
+    "opencv__opencv@e546382",
+    "elastic__elasticsearch@dc8943f",
+    "libsdl-org__SDL@1526727",
+    "electron__electron@100ad24",
+    "langflow-ai__langflow@b1cbdba",
+    "mpv-player__mpv@0b0330f",
+    "bitcoin__bitcoin@724546e",
+    "comfyanonymous__ComfyUI@b55c224",
+    "timescale__timescaledb@2568b01",
+    "microsoft__typescript-go@b970689",
+    "cline__cline@2195a68",
+    "microsoft__PowerToys@c1cedce",
+    "keycloak__keycloak@79dbba9",
+    "electron__electron@2cc5656",
+    "cline__cline@d0a8db8",
+    "langflow-ai__langflow@6239290",
+    "astral-sh__uv@ed57db2",
+    "electron__electron@6084595",
+    "mrdoob__three.js@b55b9e9",
+    "bluewave-labs__Checkmate@32b54dd",
+    "google-gemini__gemini-cli@4c150ab",
+    "gofr-dev__gofr@c1a26ad",
+    "facebook__react@b045f18",
+    "vllm-project__vllm@6217b0c",
+    "valkey-io__valkey@8b2137d",
+    "elastic__elasticsearch@5e604e4",
+    "wavetermdev__waveterm@61b0fb4",
+    "ollama__ollama@c2d08dd",
+    "ppy__osu@748ab3d",
+    "wavetermdev__waveterm@90a57d5",
+    "bluewave-labs__Checkmate@29e03a6",
+    "PowerShell__PowerShell@ea07b93",
+    "valkey-io__valkey@ecb3abd",
+    "ClickHouse__ClickHouse@73ecc7d",
+    "lvgl__lvgl@9cce37c",
+    "elastic__elasticsearch@e355340",
+    "nextcloud__server@51b5ea9",
+    "kestra-io__kestra@3c2a276",
+    "FreeCAD__FreeCAD@290bdc7",
+    "elastic__elasticsearch@761281a",
+    "sveltejs__svelte@44bec4c",
+    "vllm-project__vllm@3fe1893",
+    "ClickHouse__ClickHouse@5fb6ee3",
+    "kestra-io__kestra@0ec45f0",
+    "kestra-io__kestra@06e7c6e",
+    "keycloak__keycloak@04ad5d5",
+    "dotnet__aspnetcore@0ce67cd",
+    "elastic__elasticsearch@e38d20c",
+    "FreeCAD__FreeCAD@39c5968",
+    "cline__cline@7d18fb9",
+    "ClickHouse__ClickHouse@f9987c8",
+    "elastic__elasticsearch@a9973f6",
+    "filamentphp__filament@d47632c",
+    "FreeCAD__FreeCAD@e596925",
+    "browser-use__browser-use@0b21e50",
+    "n8n-io__n8n@61fc500",
+    "bitcoin__bitcoin@e98c51f",
+    "immich-app__immich@9032c7e",
+    "elastic__elasticsearch@902352a",
+    "filamentphp__filament@77874d0",
+    "google-gemini__gemini-cli@d64b61e",
+    "infiniflow__ragflow@7051234",
+    "FreeCAD__FreeCAD@a050e42",
+    "n8n-io__n8n@9321691",
+    "FreeCAD__FreeCAD@82fef4a",
+    "google-gemini__gemini-cli@6fd8269",
+    "timescale__timescaledb@f84194c",
+    "gofr-dev__gofr@dc0b3e6",
+    "timescale__timescaledb@7148e5c",
+    "immich-app__immich@b7a1255",
+    "linera-io__linera-protocol@024925d",
+    "ClickHouse__ClickHouse@cc96255",
+    "n8n-io__n8n@ebe680f",
+    "dbeaver__dbeaver@bc3ac7b",
+    "dotnet__aspnetcore@8ac940f",
+    "FreeCAD__FreeCAD@eb761fd",
+    "gofr-dev__gofr@49ab394",
+    "mpv-player__mpv@ff45a81",
+    "elastic__elasticsearch@4d9b96f",
+    "google-gemini__gemini-cli@77ea28a",
+    "keycloak__keycloak@2373a48",
+    "CherryHQ__cherry-studio@83a2594",
+    "ClickHouse__ClickHouse@79224f2",
+    "linera-io__linera-protocol@8fb32bb",
+    "lvgl__lvgl@a0067e3",
+    "nodejs__node@b225544",
+    "browser-use__browser-use@aab7b3b",
+    "cline__cline@ca7f02b",
+    "immich-app__immich@7e2009f",
+    "ClickHouse__ClickHouse@3eee886",
+    "valkey-io__valkey@866fa4a",
+    "microsoft__typescript-go@1a84d8d",
+    "keycloak__keycloak@460f800",
+    "microsoft__typescript-go@ae447d3",
+    "infiniflow__ragflow@f189316",
+    "google-gemini__gemini-cli@e7ed0a4",
+    "ollama__ollama@af112d6",
+    "openai__codex@8c952af",
+    "ppy__osu@87697a7",
+    "FreeCAD__FreeCAD@699b45c",
+    "comfyanonymous__ComfyUI@cfc3122",
+    "ClickHouse__ClickHouse@f9d51fa",
+    "appwrite__appwrite@710b8bd",
+    "microsoft__semantic-kernel@a712b62",
+    "vllm-project__vllm@075f1b5",
+    "bitcoin__bitcoin@4ba2e48",
+    "wavetermdev__waveterm@4b7637f",
+    "dotnet__aspnetcore@742f022",
+    "FreeCAD__FreeCAD@ec3da2e",
+    "facebook__react@be58f26",
+    "timescale__timescaledb@5ab9b12",
+    "gofr-dev__gofr@5e284ae",
+    "mudler__LocalAI@e466450",
+    "immich-app__immich@d38f1f5",
+    "juspay__hyperswitch@5e0fa17",
+    "comfyanonymous__ComfyUI@4936d01",
+    "langflow-ai__langflow@bcfe6f9",
+    "elastic__elasticsearch@a6a4623",
+    "mrdoob__three.js@96ab072",
+    "FreeCAD__FreeCAD@a440ff7",
+    "vllm-project__vllm@134705b",
+    "opencv__opencv@79afad9",
+    "infiniflow__ragflow@2d06022",
+    "electron__electron@c486457",
+    "ClickHouse__ClickHouse@3143520",
+    "ollama__ollama@2ed14f2",
+    "laravel__framework@0a5238a",
+    "n8n-io__n8n@c8d45ad",
+    "mpv-player__mpv@0729afe",
+    "symfony__symfony@942f8fa",
+    "dotnet__aspnetcore@2f372e8",
+    "ollama__ollama@b6002f6",
+    "filamentphp__filament@871ec75",
+    "vllm-project__vllm@a800045",
+    "juspay__hyperswitch@0231de6",
+    "valkey-io__valkey@1379171",
+    "gofr-dev__gofr@b9cdcbb",
+    "immich-app__immich@966c3f2",
+    "mrdoob__three.js@7388f60",
+    "microsoft__typescript-go@100dbc5",
+    "sveltejs__svelte@4bf1f91",
+    "lvgl__lvgl@e526b2a",
+    "nodejs__node@e8b6c18",
+    "immich-app__immich@91b3b6a",
+    "ClickHouse__ClickHouse@fd6ba0c",
+    "juspay__hyperswitch@59ec03c",
+    "symfony__symfony@2b9721f",
+    "unionlabs__union@d840723",
+    "browser-use__browser-use@72f1585",
+    "microsoft__typescript-go@892b4a3",
+    "FreeCAD__FreeCAD@870d7f5",
+    "elastic__elasticsearch@a3bac5f",
+    "cline__cline@419534c",
+    "keycloak__keycloak@1463502",
+    "google-gemini__gemini-cli@c6e6248",
+    "ClickHouse__ClickHouse@36ea28a",
+    "elastic__elasticsearch@10d682d",
+    "FreeCAD__FreeCAD@f8cd643",
+    "lvgl__lvgl@4a57db3",
+    "elastic__elasticsearch@2adcb2d"
+  ],
+  "judge": {
+    "mode": "mock",
+    "model": "",
+    "line_k": 1
+  },
+  "generated_at": "2026-07-09T03:01:06.277522+00:00",
+  "eval_details": [
+    {
+      "instance_id": "libsdl-org__SDL@96dfef3",
+      "repo": "libsdl-org/SDL",
+      "status": "evaluated",
+      "expected_notes": 8,
+      "generated_notes": 2,
+      "line_match_count": 1,
+      "semantic_match_count": 1
+    },
+    {
+      "instance_id": "cline__cline@cb4d5c9",
+      "repo": "cline/cline",
+      "status": "evaluated",
+      "expected_notes": 3,
+      "generated_notes": 2,
+      "line_match_count": 1,
+      "semantic_match_count": 1
+    },
+    {
+      "instance_id": "valkey-io__valkey@36f37c0",
+      "repo": "valkey-io/valkey",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "dbeaver__dbeaver@ed40132",
+      "repo": "dbeaver/dbeaver",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "immich-app__immich@5f47591",
+      "repo": "immich-app/immich",
+      "status": "missing",
+      "expected_notes": 28,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "n8n-io__n8n@f523897",
+      "repo": "n8n-io/n8n",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "google-gemini__gemini-cli@0fa1bd7",
+      "repo": "google-gemini/gemini-cli",
+      "status": "missing",
+      "expected_notes": 13,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "cline__cline@f098af0",
+      "repo": "cline/cline",
+      "status": "missing",
+      "expected_notes": 8,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "dbeaver__dbeaver@8224826",
+      "repo": "dbeaver/dbeaver",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "microsoft__typescript-go@45c0de9",
+      "repo": "microsoft/typescript-go",
+      "status": "missing",
+      "expected_notes": 1,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "opencv__opencv@e3e45c8",
+      "repo": "opencv/opencv",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "infiniflow__ragflow@a63caa1",
+      "repo": "infiniflow/ragflow",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "CherryHQ__cherry-studio@5644b00",
+      "repo": "CherryHQ/cherry-studio",
+      "status": "missing",
+      "expected_notes": 23,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "filamentphp__filament@912f080",
+      "repo": "filamentphp/filament",
+      "status": "missing",
+      "expected_notes": 1,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "laravel__framework@180c25f",
+      "repo": "laravel/framework",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "astral-sh__uv@61b521f",
+      "repo": "astral-sh/uv",
+      "status": "missing",
+      "expected_notes": 1,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ClickHouse__ClickHouse@d67628c",
+      "repo": "ClickHouse/ClickHouse",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "comfyanonymous__ComfyUI@0bb6023",
+      "repo": "comfyanonymous/ComfyUI",
+      "status": "missing",
+      "expected_notes": 7,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "alibaba__spring-ai-alibaba@3555a95",
+      "repo": "alibaba/spring-ai-alibaba",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "symfony__symfony@6478705",
+      "repo": "symfony/symfony",
+      "status": "missing",
+      "expected_notes": 1,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "keycloak__keycloak@21d4538",
+      "repo": "keycloak/keycloak",
+      "status": "missing",
+      "expected_notes": 21,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "comfyanonymous__ComfyUI@4dcd698",
+      "repo": "comfyanonymous/ComfyUI",
+      "status": "missing",
+      "expected_notes": 18,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "gofr-dev__gofr@2c0c099",
+      "repo": "gofr-dev/gofr",
+      "status": "missing",
+      "expected_notes": 8,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "keycloak__keycloak@805c204",
+      "repo": "keycloak/keycloak",
+      "status": "missing",
+      "expected_notes": 10,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ollama__ollama@498792c",
+      "repo": "ollama/ollama",
+      "status": "missing",
+      "expected_notes": 3,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "alibaba__spring-ai-alibaba@4bc7305",
+      "repo": "alibaba/spring-ai-alibaba",
+      "status": "missing",
+      "expected_notes": 10,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "dbeaver__dbeaver@dc67ca7",
+      "repo": "dbeaver/dbeaver",
+      "status": "missing",
+      "expected_notes": 11,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "langflow-ai__langflow@9513d15",
+      "repo": "langflow-ai/langflow",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "mpv-player__mpv@dbd327d",
+      "repo": "mpv-player/mpv",
+      "status": "missing",
+      "expected_notes": 7,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "elastic__elasticsearch@5e318eb",
+      "repo": "elastic/elasticsearch",
+      "status": "missing",
+      "expected_notes": 9,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "n8n-io__n8n@77ece2e",
+      "repo": "n8n-io/n8n",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "elastic__elasticsearch@bef908c",
+      "repo": "elastic/elasticsearch",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "linera-io__linera-protocol@3535ddb",
+      "repo": "linera-io/linera-protocol",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ollama__ollama@0b52f18",
+      "repo": "ollama/ollama",
+      "status": "missing",
+      "expected_notes": 3,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ClickHouse__ClickHouse@40a4654",
+      "repo": "ClickHouse/ClickHouse",
+      "status": "missing",
+      "expected_notes": 10,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "PowerShell__PowerShell@ec952ce",
+      "repo": "PowerShell/PowerShell",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "opencv__opencv@e546382",
+      "repo": "opencv/opencv",
+      "status": "missing",
+      "expected_notes": 1,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "elastic__elasticsearch@dc8943f",
+      "repo": "elastic/elasticsearch",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "libsdl-org__SDL@1526727",
+      "repo": "libsdl-org/SDL",
+      "status": "missing",
+      "expected_notes": 7,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "electron__electron@100ad24",
+      "repo": "electron/electron",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "langflow-ai__langflow@b1cbdba",
+      "repo": "langflow-ai/langflow",
+      "status": "missing",
+      "expected_notes": 3,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "mpv-player__mpv@0b0330f",
+      "repo": "mpv-player/mpv",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "bitcoin__bitcoin@724546e",
+      "repo": "bitcoin/bitcoin",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "comfyanonymous__ComfyUI@b55c224",
+      "repo": "comfyanonymous/ComfyUI",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "timescale__timescaledb@2568b01",
+      "repo": "timescale/timescaledb",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "microsoft__typescript-go@b970689",
+      "repo": "microsoft/typescript-go",
+      "status": "missing",
+      "expected_notes": 15,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "cline__cline@2195a68",
+      "repo": "cline/cline",
+      "status": "missing",
+      "expected_notes": 7,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "microsoft__PowerToys@c1cedce",
+      "repo": "microsoft/PowerToys",
+      "status": "missing",
+      "expected_notes": 3,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "keycloak__keycloak@79dbba9",
+      "repo": "keycloak/keycloak",
+      "status": "missing",
+      "expected_notes": 9,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "electron__electron@2cc5656",
+      "repo": "electron/electron",
+      "status": "missing",
+      "expected_notes": 7,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "cline__cline@d0a8db8",
+      "repo": "cline/cline",
+      "status": "missing",
+      "expected_notes": 15,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "langflow-ai__langflow@6239290",
+      "repo": "langflow-ai/langflow",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "astral-sh__uv@ed57db2",
+      "repo": "astral-sh/uv",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "electron__electron@6084595",
+      "repo": "electron/electron",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "mrdoob__three.js@b55b9e9",
+      "repo": "mrdoob/three.js",
+      "status": "missing",
+      "expected_notes": 10,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "bluewave-labs__Checkmate@32b54dd",
+      "repo": "bluewave-labs/Checkmate",
+      "status": "missing",
+      "expected_notes": 30,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "google-gemini__gemini-cli@4c150ab",
+      "repo": "google-gemini/gemini-cli",
+      "status": "missing",
+      "expected_notes": 3,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "gofr-dev__gofr@c1a26ad",
+      "repo": "gofr-dev/gofr",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "facebook__react@b045f18",
+      "repo": "facebook/react",
+      "status": "missing",
+      "expected_notes": 16,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "vllm-project__vllm@6217b0c",
+      "repo": "vllm-project/vllm",
+      "status": "missing",
+      "expected_notes": 1,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "valkey-io__valkey@8b2137d",
+      "repo": "valkey-io/valkey",
+      "status": "missing",
+      "expected_notes": 8,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "elastic__elasticsearch@5e604e4",
+      "repo": "elastic/elasticsearch",
+      "status": "missing",
+      "expected_notes": 10,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "wavetermdev__waveterm@61b0fb4",
+      "repo": "wavetermdev/waveterm",
+      "status": "missing",
+      "expected_notes": 19,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ollama__ollama@c2d08dd",
+      "repo": "ollama/ollama",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ppy__osu@748ab3d",
+      "repo": "ppy/osu",
+      "status": "missing",
+      "expected_notes": 8,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "wavetermdev__waveterm@90a57d5",
+      "repo": "wavetermdev/waveterm",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "bluewave-labs__Checkmate@29e03a6",
+      "repo": "bluewave-labs/Checkmate",
+      "status": "missing",
+      "expected_notes": 9,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "PowerShell__PowerShell@ea07b93",
+      "repo": "PowerShell/PowerShell",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "valkey-io__valkey@ecb3abd",
+      "repo": "valkey-io/valkey",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ClickHouse__ClickHouse@73ecc7d",
+      "repo": "ClickHouse/ClickHouse",
+      "status": "missing",
+      "expected_notes": 18,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "lvgl__lvgl@9cce37c",
+      "repo": "lvgl/lvgl",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "elastic__elasticsearch@e355340",
+      "repo": "elastic/elasticsearch",
+      "status": "missing",
+      "expected_notes": 8,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "nextcloud__server@51b5ea9",
+      "repo": "nextcloud/server",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "kestra-io__kestra@3c2a276",
+      "repo": "kestra-io/kestra",
+      "status": "missing",
+      "expected_notes": 12,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "FreeCAD__FreeCAD@290bdc7",
+      "repo": "FreeCAD/FreeCAD",
+      "status": "missing",
+      "expected_notes": 8,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "elastic__elasticsearch@761281a",
+      "repo": "elastic/elasticsearch",
+      "status": "missing",
+      "expected_notes": 3,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "sveltejs__svelte@44bec4c",
+      "repo": "sveltejs/svelte",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "vllm-project__vllm@3fe1893",
+      "repo": "vllm-project/vllm",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ClickHouse__ClickHouse@5fb6ee3",
+      "repo": "ClickHouse/ClickHouse",
+      "status": "missing",
+      "expected_notes": 11,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "kestra-io__kestra@0ec45f0",
+      "repo": "kestra-io/kestra",
+      "status": "missing",
+      "expected_notes": 8,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "kestra-io__kestra@06e7c6e",
+      "repo": "kestra-io/kestra",
+      "status": "missing",
+      "expected_notes": 3,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "keycloak__keycloak@04ad5d5",
+      "repo": "keycloak/keycloak",
+      "status": "missing",
+      "expected_notes": 17,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "dotnet__aspnetcore@0ce67cd",
+      "repo": "dotnet/aspnetcore",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "elastic__elasticsearch@e38d20c",
+      "repo": "elastic/elasticsearch",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "FreeCAD__FreeCAD@39c5968",
+      "repo": "FreeCAD/FreeCAD",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "cline__cline@7d18fb9",
+      "repo": "cline/cline",
+      "status": "missing",
+      "expected_notes": 9,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ClickHouse__ClickHouse@f9987c8",
+      "repo": "ClickHouse/ClickHouse",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "elastic__elasticsearch@a9973f6",
+      "repo": "elastic/elasticsearch",
+      "status": "missing",
+      "expected_notes": 7,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "filamentphp__filament@d47632c",
+      "repo": "filamentphp/filament",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "FreeCAD__FreeCAD@e596925",
+      "repo": "FreeCAD/FreeCAD",
+      "status": "missing",
+      "expected_notes": 23,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "browser-use__browser-use@0b21e50",
+      "repo": "browser-use/browser-use",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "n8n-io__n8n@61fc500",
+      "repo": "n8n-io/n8n",
+      "status": "missing",
+      "expected_notes": 12,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "bitcoin__bitcoin@e98c51f",
+      "repo": "bitcoin/bitcoin",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "immich-app__immich@9032c7e",
+      "repo": "immich-app/immich",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "elastic__elasticsearch@902352a",
+      "repo": "elastic/elasticsearch",
+      "status": "missing",
+      "expected_notes": 1,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "filamentphp__filament@77874d0",
+      "repo": "filamentphp/filament",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "google-gemini__gemini-cli@d64b61e",
+      "repo": "google-gemini/gemini-cli",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "infiniflow__ragflow@7051234",
+      "repo": "infiniflow/ragflow",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "FreeCAD__FreeCAD@a050e42",
+      "repo": "FreeCAD/FreeCAD",
+      "status": "missing",
+      "expected_notes": 19,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "n8n-io__n8n@9321691",
+      "repo": "n8n-io/n8n",
+      "status": "missing",
+      "expected_notes": 13,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "FreeCAD__FreeCAD@82fef4a",
+      "repo": "FreeCAD/FreeCAD",
+      "status": "missing",
+      "expected_notes": 3,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "google-gemini__gemini-cli@6fd8269",
+      "repo": "google-gemini/gemini-cli",
+      "status": "missing",
+      "expected_notes": 14,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "timescale__timescaledb@f84194c",
+      "repo": "timescale/timescaledb",
+      "status": "missing",
+      "expected_notes": 11,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "gofr-dev__gofr@dc0b3e6",
+      "repo": "gofr-dev/gofr",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "timescale__timescaledb@7148e5c",
+      "repo": "timescale/timescaledb",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "immich-app__immich@b7a1255",
+      "repo": "immich-app/immich",
+      "status": "missing",
+      "expected_notes": 9,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "linera-io__linera-protocol@024925d",
+      "repo": "linera-io/linera-protocol",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ClickHouse__ClickHouse@cc96255",
+      "repo": "ClickHouse/ClickHouse",
+      "status": "missing",
+      "expected_notes": 16,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "n8n-io__n8n@ebe680f",
+      "repo": "n8n-io/n8n",
+      "status": "missing",
+      "expected_notes": 21,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "dbeaver__dbeaver@bc3ac7b",
+      "repo": "dbeaver/dbeaver",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "dotnet__aspnetcore@8ac940f",
+      "repo": "dotnet/aspnetcore",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "FreeCAD__FreeCAD@eb761fd",
+      "repo": "FreeCAD/FreeCAD",
+      "status": "missing",
+      "expected_notes": 19,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "gofr-dev__gofr@49ab394",
+      "repo": "gofr-dev/gofr",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "mpv-player__mpv@ff45a81",
+      "repo": "mpv-player/mpv",
+      "status": "missing",
+      "expected_notes": 12,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "elastic__elasticsearch@4d9b96f",
+      "repo": "elastic/elasticsearch",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "google-gemini__gemini-cli@77ea28a",
+      "repo": "google-gemini/gemini-cli",
+      "status": "missing",
+      "expected_notes": 24,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "keycloak__keycloak@2373a48",
+      "repo": "keycloak/keycloak",
+      "status": "missing",
+      "expected_notes": 7,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "CherryHQ__cherry-studio@83a2594",
+      "repo": "CherryHQ/cherry-studio",
+      "status": "missing",
+      "expected_notes": 19,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ClickHouse__ClickHouse@79224f2",
+      "repo": "ClickHouse/ClickHouse",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "linera-io__linera-protocol@8fb32bb",
+      "repo": "linera-io/linera-protocol",
+      "status": "missing",
+      "expected_notes": 1,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "lvgl__lvgl@a0067e3",
+      "repo": "lvgl/lvgl",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "nodejs__node@b225544",
+      "repo": "nodejs/node",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "browser-use__browser-use@aab7b3b",
+      "repo": "browser-use/browser-use",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "cline__cline@ca7f02b",
+      "repo": "cline/cline",
+      "status": "missing",
+      "expected_notes": 9,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "immich-app__immich@7e2009f",
+      "repo": "immich-app/immich",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ClickHouse__ClickHouse@3eee886",
+      "repo": "ClickHouse/ClickHouse",
+      "status": "missing",
+      "expected_notes": 18,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "valkey-io__valkey@866fa4a",
+      "repo": "valkey-io/valkey",
+      "status": "missing",
+      "expected_notes": 1,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "microsoft__typescript-go@1a84d8d",
+      "repo": "microsoft/typescript-go",
+      "status": "missing",
+      "expected_notes": 3,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "keycloak__keycloak@460f800",
+      "repo": "keycloak/keycloak",
+      "status": "missing",
+      "expected_notes": 7,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "microsoft__typescript-go@ae447d3",
+      "repo": "microsoft/typescript-go",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "infiniflow__ragflow@f189316",
+      "repo": "infiniflow/ragflow",
+      "status": "missing",
+      "expected_notes": 10,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "google-gemini__gemini-cli@e7ed0a4",
+      "repo": "google-gemini/gemini-cli",
+      "status": "missing",
+      "expected_notes": 3,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ollama__ollama@af112d6",
+      "repo": "ollama/ollama",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "openai__codex@8c952af",
+      "repo": "openai/codex",
+      "status": "missing",
+      "expected_notes": 7,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ppy__osu@87697a7",
+      "repo": "ppy/osu",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "FreeCAD__FreeCAD@699b45c",
+      "repo": "FreeCAD/FreeCAD",
+      "status": "missing",
+      "expected_notes": 16,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "comfyanonymous__ComfyUI@cfc3122",
+      "repo": "comfyanonymous/ComfyUI",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ClickHouse__ClickHouse@f9d51fa",
+      "repo": "ClickHouse/ClickHouse",
+      "status": "missing",
+      "expected_notes": 7,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "appwrite__appwrite@710b8bd",
+      "repo": "appwrite/appwrite",
+      "status": "missing",
+      "expected_notes": 18,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "microsoft__semantic-kernel@a712b62",
+      "repo": "microsoft/semantic-kernel",
+      "status": "missing",
+      "expected_notes": 3,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "vllm-project__vllm@075f1b5",
+      "repo": "vllm-project/vllm",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "bitcoin__bitcoin@4ba2e48",
+      "repo": "bitcoin/bitcoin",
+      "status": "missing",
+      "expected_notes": 1,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "wavetermdev__waveterm@4b7637f",
+      "repo": "wavetermdev/waveterm",
+      "status": "missing",
+      "expected_notes": 14,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "dotnet__aspnetcore@742f022",
+      "repo": "dotnet/aspnetcore",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "FreeCAD__FreeCAD@ec3da2e",
+      "repo": "FreeCAD/FreeCAD",
+      "status": "missing",
+      "expected_notes": 3,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "facebook__react@be58f26",
+      "repo": "facebook/react",
+      "status": "missing",
+      "expected_notes": 1,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "timescale__timescaledb@5ab9b12",
+      "repo": "timescale/timescaledb",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "gofr-dev__gofr@5e284ae",
+      "repo": "gofr-dev/gofr",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "mudler__LocalAI@e466450",
+      "repo": "mudler/LocalAI",
+      "status": "missing",
+      "expected_notes": 21,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "immich-app__immich@d38f1f5",
+      "repo": "immich-app/immich",
+      "status": "missing",
+      "expected_notes": 19,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "juspay__hyperswitch@5e0fa17",
+      "repo": "juspay/hyperswitch",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "comfyanonymous__ComfyUI@4936d01",
+      "repo": "comfyanonymous/ComfyUI",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "langflow-ai__langflow@bcfe6f9",
+      "repo": "langflow-ai/langflow",
+      "status": "missing",
+      "expected_notes": 9,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "elastic__elasticsearch@a6a4623",
+      "repo": "elastic/elasticsearch",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "mrdoob__three.js@96ab072",
+      "repo": "mrdoob/three.js",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "FreeCAD__FreeCAD@a440ff7",
+      "repo": "FreeCAD/FreeCAD",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "vllm-project__vllm@134705b",
+      "repo": "vllm-project/vllm",
+      "status": "missing",
+      "expected_notes": 8,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "opencv__opencv@79afad9",
+      "repo": "opencv/opencv",
+      "status": "missing",
+      "expected_notes": 14,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "infiniflow__ragflow@2d06022",
+      "repo": "infiniflow/ragflow",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "electron__electron@c486457",
+      "repo": "electron/electron",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ClickHouse__ClickHouse@3143520",
+      "repo": "ClickHouse/ClickHouse",
+      "status": "missing",
+      "expected_notes": 13,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ollama__ollama@2ed14f2",
+      "repo": "ollama/ollama",
+      "status": "missing",
+      "expected_notes": 20,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "laravel__framework@0a5238a",
+      "repo": "laravel/framework",
+      "status": "missing",
+      "expected_notes": 1,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "n8n-io__n8n@c8d45ad",
+      "repo": "n8n-io/n8n",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "mpv-player__mpv@0729afe",
+      "repo": "mpv-player/mpv",
+      "status": "missing",
+      "expected_notes": 8,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "symfony__symfony@942f8fa",
+      "repo": "symfony/symfony",
+      "status": "missing",
+      "expected_notes": 3,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "dotnet__aspnetcore@2f372e8",
+      "repo": "dotnet/aspnetcore",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ollama__ollama@b6002f6",
+      "repo": "ollama/ollama",
+      "status": "missing",
+      "expected_notes": 12,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "filamentphp__filament@871ec75",
+      "repo": "filamentphp/filament",
+      "status": "missing",
+      "expected_notes": 3,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "vllm-project__vllm@a800045",
+      "repo": "vllm-project/vllm",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "juspay__hyperswitch@0231de6",
+      "repo": "juspay/hyperswitch",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "valkey-io__valkey@1379171",
+      "repo": "valkey-io/valkey",
+      "status": "missing",
+      "expected_notes": 11,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "gofr-dev__gofr@b9cdcbb",
+      "repo": "gofr-dev/gofr",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "immich-app__immich@966c3f2",
+      "repo": "immich-app/immich",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "mrdoob__three.js@7388f60",
+      "repo": "mrdoob/three.js",
+      "status": "missing",
+      "expected_notes": 17,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "microsoft__typescript-go@100dbc5",
+      "repo": "microsoft/typescript-go",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "sveltejs__svelte@4bf1f91",
+      "repo": "sveltejs/svelte",
+      "status": "missing",
+      "expected_notes": 14,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "lvgl__lvgl@e526b2a",
+      "repo": "lvgl/lvgl",
+      "status": "missing",
+      "expected_notes": 33,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "nodejs__node@e8b6c18",
+      "repo": "nodejs/node",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "immich-app__immich@91b3b6a",
+      "repo": "immich-app/immich",
+      "status": "missing",
+      "expected_notes": 16,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ClickHouse__ClickHouse@fd6ba0c",
+      "repo": "ClickHouse/ClickHouse",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "juspay__hyperswitch@59ec03c",
+      "repo": "juspay/hyperswitch",
+      "status": "missing",
+      "expected_notes": 8,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "symfony__symfony@2b9721f",
+      "repo": "symfony/symfony",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "unionlabs__union@d840723",
+      "repo": "unionlabs/union",
+      "status": "missing",
+      "expected_notes": 18,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "browser-use__browser-use@72f1585",
+      "repo": "browser-use/browser-use",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "microsoft__typescript-go@892b4a3",
+      "repo": "microsoft/typescript-go",
+      "status": "missing",
+      "expected_notes": 13,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "FreeCAD__FreeCAD@870d7f5",
+      "repo": "FreeCAD/FreeCAD",
+      "status": "missing",
+      "expected_notes": 32,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "elastic__elasticsearch@a3bac5f",
+      "repo": "elastic/elasticsearch",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "cline__cline@419534c",
+      "repo": "cline/cline",
+      "status": "missing",
+      "expected_notes": 2,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "keycloak__keycloak@1463502",
+      "repo": "keycloak/keycloak",
+      "status": "missing",
+      "expected_notes": 1,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "google-gemini__gemini-cli@c6e6248",
+      "repo": "google-gemini/gemini-cli",
+      "status": "missing",
+      "expected_notes": 7,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "ClickHouse__ClickHouse@36ea28a",
+      "repo": "ClickHouse/ClickHouse",
+      "status": "missing",
+      "expected_notes": 4,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "elastic__elasticsearch@10d682d",
+      "repo": "elastic/elasticsearch",
+      "status": "missing",
+      "expected_notes": 8,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "FreeCAD__FreeCAD@f8cd643",
+      "repo": "FreeCAD/FreeCAD",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "lvgl__lvgl@4a57db3",
+      "repo": "lvgl/lvgl",
+      "status": "missing",
+      "expected_notes": 5,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    },
+    {
+      "instance_id": "elastic__elasticsearch@2adcb2d",
+      "repo": "elastic/elasticsearch",
+      "status": "missing",
+      "expected_notes": 6,
+      "generated_notes": 0,
+      "line_match_count": 0,
+      "semantic_match_count": 0
+    }
+  ]
+}

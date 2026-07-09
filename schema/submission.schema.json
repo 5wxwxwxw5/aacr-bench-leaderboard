@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AACR-Bench Submission Result",
+  "description": "Unified per-instance result file. Filename must be <instance_id>.json.",
+  "type": "object",
+  "required": [
+    "instance_id",
+    "repo",
+    "base_commit",
+    "head_commit",
+    "started_at",
+    "duration_seconds",
+    "review"
+  ],
+  "properties": {
+    "instance_id": { "type": "string", "minLength": 1 },
+    "repo": { "type": "string", "minLength": 1 },
+    "base_commit": { "type": "string", "minLength": 1 },
+    "head_commit": { "type": "string", "minLength": 1 },
+    "started_at": { "type": "string", "minLength": 1 },
+    "duration_seconds": { "type": "number", "minimum": 0 },
+    "review": {
+      "type": "object",
+      "required": ["summary", "comments", "stderr"],
+      "properties": {
+        "summary": {
+          "type": "object",
+          "required": ["total_tokens", "input_tokens", "output_tokens"],
+          "properties": {
+            "total_tokens": { "type": "integer", "minimum": 0 },
+            "input_tokens": { "type": "integer", "minimum": 0 },
+            "output_tokens": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path", "content", "start_line", "end_line"],
+            "properties": {
+              "path": { "type": "string" },
+              "content": { "type": "string" },
+              "start_line": { "type": ["integer", "null"] },
+              "end_line": { "type": ["integer", "null"] }
+            }
+          }
+        },
+        "stderr": { "type": "string" }
+      }
+    }
+  }
+}

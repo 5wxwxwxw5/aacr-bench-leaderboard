@@ -1,0 +1,60 @@
+name: Validate Submission
+
+on:
+  pull_request:
+    paths:
+      - "submissions/**"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install -r evaluation/requirements.txt
+
+      - name: Detect changed submission dirs
+        id: detect
+        run: |
+          git fetch origin ${{ github.base_ref }} --depth=1
+          changed=$(git diff --name-only origin/${{ github.base_ref }}...HEAD -- submissions/ \
+            | awk -F/ '{print $1"/"$2}' | sort -u)
+          echo "dirs<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$changed" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Validate
+        id: validate
+        run: |
+          report_file=$(mktemp)
+          status=0
+          for dir in ${{ steps.detect.outputs.dirs }}; do
+            [ -d "$dir" ] || continue
+            python evaluation/validate.py "$dir" >> "$report_file" 2>&1 || status=1
+            echo "" >> "$report_file"
+          done
+          echo "REPORT_FILE=$report_file" >> "$GITHUB_ENV"
+          exit $status
+
+      - name: Comment report on PR
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync(process.env.REPORT_FILE, 'utf8') || '（无校验输出）';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: "🤖 **自动格式校验**\n\n" + body,
+            });
