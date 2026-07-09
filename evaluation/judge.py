@@ -1,19 +1,15 @@
 """评测核心：参考评论与生成评论的四阶段匹配 + 指标统计 + 语义判定。
 
 本模块自包含，不依赖框架外的任何资源，也不 clone 任何被测仓库。
-语义匹配支持两种模式：
-- LLM 模式：调用裁判模型判断两条评论是否表达同一关注点 / 建议；
-- Mock 模式：用本地文本相似度近似（零依赖、零成本，仅用于流程验证）。
+语义匹配调用裁判模型（LLM）判断两条评论是否表达同一关注点 / 建议。
 
 环境变量（直接读取，无中间映射）：
-  JUDGE_USE_MOCK=true 或缺少 JUDGE_API_KEY  -> Mock 模式
-  否则  -> LLM 模式（JUDGE_BASE_URL / JUDGE_API_KEY / JUDGE_MODEL）
+  JUDGE_BASE_URL / JUDGE_API_KEY / JUDGE_MODEL —— 三者均为必填，缺失即报错退出。
 
 匹配按 path -> side -> line(k) -> semantic 四个阶段进行，任一阶段不通过即跳过候选。
 """
 from __future__ import annotations
 
-import difflib
 import logging
 import os
 import re
@@ -23,18 +19,24 @@ from typing import Any, Dict, List
 JUDGE_BASE_URL_VAR = "JUDGE_BASE_URL"
 JUDGE_API_KEY_VAR = "JUDGE_API_KEY"
 JUDGE_MODEL_VAR = "JUDGE_MODEL"
-JUDGE_USE_MOCK_VAR = "JUDGE_USE_MOCK"
 
-# 缺少 JUDGE_API_KEY 时自动启用本地 Mock 语义匹配，便于零配置验证流程
-USE_MOCK_LLM = (
-    os.getenv(JUDGE_USE_MOCK_VAR, "").lower() == "true"
-    or not os.getenv(JUDGE_API_KEY_VAR)
-)
+# 裁判模型三项配置均为必填，缺失直接报错退出（不再回退到本地近似匹配）
+_missing_env = [
+    name
+    for name in (JUDGE_BASE_URL_VAR, JUDGE_API_KEY_VAR, JUDGE_MODEL_VAR)
+    if not os.getenv(name)
+]
+if _missing_env:
+    raise RuntimeError(
+        "缺少裁判模型环境变量: "
+        + ", ".join(_missing_env)
+        + "。请配置 JUDGE_BASE_URL / JUDGE_API_KEY / JUDGE_MODEL 后重试。"
+    )
 
-# 语义匹配请求计数（含 Mock 与 LLM）
+# 语义匹配请求计数
 llm_request_count = 0
 
-# LLM 客户端延迟初始化，避免 Mock 模式下强依赖网络配置
+# LLM 客户端延迟初始化
 _llm_client = None
 
 
@@ -50,30 +52,10 @@ def _get_llm_client():
     return _llm_client
 
 
-def _mock_semantic_match(reference_note: str, generated_note: str) -> bool:
-    """本地近似语义匹配：综合序列相似度与词汇重叠度，不依赖外部 LLM。"""
-    sequence_ratio = difflib.SequenceMatcher(
-        None, reference_note.lower(), generated_note.lower()
-    ).ratio()
-
-    reference_words = set(re.findall(r"[a-zA-Z_]{3,}", reference_note.lower()))
-    generated_words = set(re.findall(r"[a-zA-Z_]{3,}", generated_note.lower()))
-    if reference_words and generated_words:
-        jaccard = len(reference_words & generated_words) / len(reference_words | generated_words)
-    else:
-        jaccard = 0.0
-
-    return sequence_ratio >= 0.4 or jaccard >= 0.3
-
-
 async def match_semantic(reference_note: str, generated_note: str) -> Dict[str, Any]:
     """判断两条评论是否表达相同的关注点或建议。"""
     global llm_request_count
     llm_request_count += 1
-
-    if USE_MOCK_LLM:
-        is_similar = _mock_semantic_match(reference_note, generated_note)
-        return {"is_similar": is_similar, "reason": f"[mock] matched={is_similar}"}
 
     prompt = (
         "-Role-\n"
@@ -257,6 +239,6 @@ def print_llm_request_statistics() -> None:
     print("\n" + "=" * 50)
     print("语义匹配请求统计")
     print("=" * 50)
-    print(f"模式: {'Mock（本地相似度）' if USE_MOCK_LLM else 'LLM（真实裁判模型）'}")
+    print(f"裁判模型: {os.getenv(JUDGE_MODEL_VAR, '')}")
     print(f"总请求数: {llm_request_count}")
     print("=" * 50 + "\n")

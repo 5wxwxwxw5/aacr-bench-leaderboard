@@ -103,7 +103,7 @@ open-leadboard/
 │       ├── meta.yaml                 # 模型元信息
 │       └── results/<instance_id>.json
 ├── evaluation/                       # 评测代码
-│   ├── judge.py                      # 四阶段匹配 + LLM/Mock 语义判定（内联 JUDGE_* 变量名）
+│   ├── judge.py                      # 四阶段匹配 + LLM 语义判定（内联 JUDGE_* 变量名）
 │   ├── grade.py                      # 精简 evaluate：仅 OCR 统一格式 + 新分母口径
 │   ├── validate.py                   # Schema + instance_id 覆盖率 + meta.yaml 校验 → markdown
 │   ├── aggregate.py                  # 汇总 leaderboard/data/*.json → leaderboard.json
@@ -162,7 +162,7 @@ contact: "@github_user"
 ## 6. 关键实现细节
 
 ### evaluation/judge.py
-从参考 `judge.py` 直接拷贝。唯一改动：去掉 `import config`，把 `JUDGE_BASE_URL / JUDGE_API_KEY / JUDGE_MODEL / JUDGE_USE_MOCK` 内联为常量。保留 `USE_MOCK_LLM`、四阶段匹配 `evaluate_comments`、`diff_location_is_same`、`compute_cr_statistics`、Mock/LLM 双模式。
+从参考 `judge.py` 移植。改动：去掉 `import config`，把 `JUDGE_BASE_URL / JUDGE_API_KEY / JUDGE_MODEL` 内联为常量，并在导入时校验三者均已配置（缺失即 `raise RuntimeError` 退出）。移除本地 Mock 近似匹配，只保留 LLM 裁判模型判定；四阶段匹配 `evaluate_comments`、`diff_location_is_same`、`compute_cr_statistics` 保持不变。
 
 ### evaluation/grade.py（改写自 evaluate.py）
 - CLI：`grade.py --submission submissions/<id> --benchmark benchmark/aacr_bench.jsonl --out leaderboard/data/<id>.json [--line-k 1]`
@@ -209,7 +209,7 @@ contact: "@github_user"
 
 ## 8. 验证方式（端到端）
 
-1. 本地：准备 `example-ocr` 提交（含部分样本，故意缺几个）→ `JUDGE_USE_MOCK=true python evaluation/grade.py ...` → 确认 data JSON 中 Recall 分母 = 196、avg_* 分母 = 已提交数。
+1. 本地：准备 `example-ocr` 提交（含部分样本，故意缺几个）→ 配置 `JUDGE_BASE_URL / JUDGE_API_KEY / JUDGE_MODEL` 后 `python evaluation/grade.py ...` → 确认 data JSON 中 Recall 分母 = 196、avg_* 分母 = 已提交数。
 2. `python evaluation/aggregate.py` → 生成 leaderboard.json；本地起 `python -m http.server` 打开 `index.html` 确认渲染与排序。
 3. `python evaluation/validate.py submissions/example-ocr` → 确认 markdown 校验报告正确。
 4. CI：先用 example 提交验证 validate.yml；evaluate.yml 需仓库配好 JUDGE_* secrets 后由 maintainer 打 label 验证。

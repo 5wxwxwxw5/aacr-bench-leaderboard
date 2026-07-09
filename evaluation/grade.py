@@ -12,8 +12,8 @@
       --benchmark benchmark/aacr_bench.jsonl \
       --out leaderboard/data/<id>.json [--line-k 1]
 
-裁判模式由环境变量控制（见 judge.py）：JUDGE_USE_MOCK / JUDGE_API_KEY /
-JUDGE_BASE_URL / JUDGE_MODEL。仓库根目录若存在 .env 会被自动加载。
+裁判模型由环境变量控制（见 judge.py）：JUDGE_BASE_URL / JUDGE_API_KEY /
+JUDGE_MODEL 均为必填，缺失即报错退出。仓库根目录若存在 .env 会被自动加载。
 """
 from __future__ import annotations
 
@@ -30,7 +30,7 @@ from typing import Any, Dict, List, Optional
 def _bootstrap_env() -> None:
     """在 import judge 之前加载 .env，使 JUDGE_* 变量就位。
 
-    judge 的 USE_MOCK_LLM 在导入时即根据环境变量固化，故必须在其之前加载。
+    judge 在导入时即校验 JUDGE_* 环境变量，缺失会直接报错，故必须在其之前加载。
     """
     try:
         from dotenv import load_dotenv
@@ -306,8 +306,8 @@ async def grade(
         "summary": summary,
         "missing_instance_ids": missing_ids,
         "judge": {
-            "mode": "mock" if judge.USE_MOCK_LLM else "llm",
-            "model": os.getenv(judge.JUDGE_MODEL_VAR, "") if not judge.USE_MOCK_LLM else "",
+            "mode": "llm",
+            "model": os.getenv(judge.JUDGE_MODEL_VAR, ""),
             "line_k": line_k,
         },
         "generated_at": datetime.now(timezone.utc).isoformat(),
