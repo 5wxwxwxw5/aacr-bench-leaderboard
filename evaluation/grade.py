@@ -200,7 +200,6 @@ async def grade(
     expected_notes = 0
     generated_notes = 0
     matched_semantic = 0
-    matched_line = 0
 
     # B 组计数器：平均时间 / token，分母只按实际提交数 S
     submitted = 0
@@ -229,7 +228,6 @@ async def grade(
                     "status": "missing",
                     "expected_notes": expected_here,
                     "generated_notes": 0,
-                    "line_match_count": 0,
                     "semantic_match_count": 0,
                 }
             )
@@ -247,7 +245,6 @@ async def grade(
         expected_notes += cr["expected_notes"]
         generated_notes += generated_count
         matched_semantic += cr["semantic_match_count"]
-        matched_line += cr["line_match_count"]
 
         usage = _extract_usage(result)
         total_duration += usage["duration_seconds"]
@@ -261,7 +258,6 @@ async def grade(
                 "status": "evaluated",
                 "expected_notes": cr["expected_notes"],
                 "generated_notes": generated_count,
-                "line_match_count": cr["line_match_count"],
                 "semantic_match_count": cr["semantic_match_count"],
             }
         )
@@ -269,8 +265,6 @@ async def grade(
     # A 组指标（分母：全部 benchmark）
     sem_p = _rate(matched_semantic, generated_notes)
     sem_r = _rate(matched_semantic, expected_notes)
-    line_p = _rate(matched_line, generated_notes)
-    line_r = _rate(matched_line, expected_notes)
 
     # B 组指标（分母：实际提交数 S）
     avg_duration = round(total_duration / submitted, 2) if submitted else 0.0
@@ -284,14 +278,10 @@ async def grade(
         "missing_instances": len(missing_ids),
         "expected_notes": expected_notes,
         "generated_notes": generated_notes,
-        "matched_semantic_notes": matched_semantic,
-        "matched_line_notes": matched_line,
-        "semantic_precision": sem_p,
-        "semantic_recall": sem_r,
-        "semantic_f1": _f1(sem_p, sem_r),
-        "line_precision": line_p,
-        "line_recall": line_r,
-        "line_f1": _f1(line_p, line_r),
+        "matched_notes": matched_semantic,
+        "precision": sem_p,
+        "recall": sem_r,
+        "f1": _f1(sem_p, sem_r),
         "total_duration_seconds": round(total_duration, 2),
         "avg_duration_seconds": avg_duration,
         "total_input_tokens": total_input_tokens,
@@ -334,10 +324,9 @@ def print_summary(result: Dict[str, Any]) -> None:
     print(f"已提交样本 (S):   {s['submitted_instances']}")
     print(f"缺失样本:         {s['missing_instances']}")
     print("-" * 56)
-    print(f"语义 F1:          {s['semantic_f1']}")
-    print(f"语义 Precision:   {s['semantic_precision']}")
-    print(f"语义 Recall:      {s['semantic_recall']}")
-    print(f"行号 F1:          {s['line_f1']}")
+    print(f"F1:               {s['f1']}")
+    print(f"Precision:        {s['precision']}")
+    print(f"Recall:           {s['recall']}")
     print("-" * 56)
     print(f"平均耗时 (/S):    {s['avg_duration_seconds']}s")
     print(f"平均 token (/S):  {s['avg_tokens']:,}")

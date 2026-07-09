@@ -13,7 +13,7 @@
       开源代码评审基准 · 提 PR 上传本地评测结果 · GitHub Action 统一复算
     </p>
     <p class="meta-line">
-      主指标 <strong>Semantic F1</strong> · 缺失样本计入 Recall/F1 分母 ·
+      主指标 <strong>F1</strong>（行号+语义匹配） · 缺失样本计入 Recall/F1 分母 ·
       平均耗时/Token 仅按实际提交样本计
     </p>
   </header>
@@ -26,10 +26,9 @@
           <tr>
             <th data-key="rank" class="num">#</th>
             <th data-key="submission_name">Model / Submission</th>
-            <th data-key="semantic_f1" class="num sortable active">Sem-F1</th>
-            <th data-key="semantic_precision" class="num sortable">Precision</th>
-            <th data-key="semantic_recall" class="num sortable">Recall</th>
-            <th data-key="line_f1" class="num sortable">Line-F1</th>
+            <th data-key="f1" class="num sortable active">F1</th>
+            <th data-key="precision" class="num sortable">Precision</th>
+            <th data-key="recall" class="num sortable">Recall</th>
             <th data-key="submitted_instances" class="num sortable">Coverage</th>
             <th data-key="avg_duration_seconds" class="num sortable">Avg Time</th>
             <th data-key="avg_tokens" class="num sortable">Avg Tokens</th>

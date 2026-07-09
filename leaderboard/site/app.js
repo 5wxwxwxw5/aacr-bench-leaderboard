@@ -2,7 +2,7 @@
 
 const state = {
   entries: [],
-  sortKey: "semantic_f1",
+  sortKey: "f1",
   sortAsc: false,
   expanded: null,
 };
@@ -37,7 +37,7 @@ function sortEntries() {
     av = av ?? 0; bv = bv ?? 0;
     return sortAsc ? av - bv : bv - av;
   });
-  // rank 始终按 semantic_f1 固定，不随排序变化 —— 用后端给的 rank
+  // rank 始终按 f1 固定，不随排序变化 —— 用后端给的 rank
 }
 
 function coverageCell(e) {
@@ -56,10 +56,9 @@ function rowHtml(e) {
         <strong>${escapeHtml(e.model || e.submission_name)}</strong>
         ${sub ? `<span class="sub">${escapeHtml(sub)}</span>` : ""}
       </td>
-      <td class="num f1">${pct(e.semantic_f1)}</td>
-      <td class="num">${pct(e.semantic_precision)}</td>
-      <td class="num">${pct(e.semantic_recall)}</td>
-      <td class="num">${pct(e.line_f1)}</td>
+      <td class="num f1">${pct(e.f1)}</td>
+      <td class="num">${pct(e.precision)}</td>
+      <td class="num">${pct(e.recall)}</td>
       ${coverageCell(e)}
       <td class="num">${secs(e.avg_duration_seconds)}</td>
       <td class="num">${num(e.avg_tokens)}</td>
@@ -71,7 +70,7 @@ function detailHtml(e) {
   const link = e.url ? `<a href="${escapeHtml(e.url)}" target="_blank" rel="noopener">${escapeHtml(e.url)}</a>` : "-";
   return `
     <tr class="detail-row" data-detail="${e.submission_id}">
-      <td colspan="10">
+      <td colspan="9">
         <div class="detail-inner">
           <h3>${escapeHtml(e.submission_name)}</h3>
           <div class="detail-grid">
@@ -79,10 +78,8 @@ function detailHtml(e) {
             <div><span>Model:</span> ${escapeHtml(e.model || "-")}</div>
             <div><span>Org:</span> ${escapeHtml(e.org || "-")}</div>
             <div><span>Judge:</span> ${escapeHtml(e.judge_mode || "-")}</div>
-            <div><span>Sem-Precision:</span> ${pct(e.semantic_precision)}</div>
-            <div><span>Sem-Recall:</span> ${pct(e.semantic_recall)}</div>
-            <div><span>Line-Precision:</span> ${pct(e.line_precision)}</div>
-            <div><span>Line-Recall:</span> ${pct(e.line_recall)}</div>
+            <div><span>Precision:</span> ${pct(e.precision)}</div>
+            <div><span>Recall:</span> ${pct(e.recall)}</div>
             <div><span>Submitted:</span> ${e.submitted_instances}/${e.total_instances}（缺失 ${e.missing_instances}）</div>
             <div><span>Avg input tokens:</span> ${num(e.avg_input_tokens)}</div>
             <div><span>Avg output tokens:</span> ${num(e.avg_output_tokens)}</div>
@@ -97,7 +94,7 @@ function render() {
   sortEntries();
   const body = document.getElementById("board-body");
   if (!state.entries.length) {
-    body.innerHTML = `<tr><td colspan="10" class="empty">暂无提交。成为第一个刷榜的人！</td></tr>`;
+    body.innerHTML = `<tr><td colspan="9" class="empty">暂无提交。成为第一个刷榜的人！</td></tr>`;
     return;
   }
   let html = "";

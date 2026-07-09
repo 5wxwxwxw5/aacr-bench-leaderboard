@@ -1,6 +1,6 @@
 {
   "benchmark": "AACR-Bench",
-  "generated_at": "2026-07-09T03:01:41.481322+00:00",
+  "generated_at": "2026-07-09T07:04:15.847959+00:00",
   "count": 1,
   "entries": [
     {
@@ -11,12 +11,9 @@
       "org": "Open-Leaderboard Demo",
       "url": "https://github.com/alibaba/aacr-bench",
       "date": "2026-07-09",
-      "semantic_f1": 0.0026,
-      "semantic_precision": 0.5,
-      "semantic_recall": 0.0013,
-      "line_f1": 0.0026,
-      "line_precision": 0.5,
-      "line_recall": 0.0013,
+      "f1": 0.0026,
+      "precision": 0.5,
+      "recall": 0.0013,
       "submitted_instances": 2,
       "total_instances": 196,
       "missing_instances": 194,

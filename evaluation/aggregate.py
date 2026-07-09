@@ -1,6 +1,6 @@
 """汇总阶段：扫描 leaderboard/data/*.json，产出排序后的 leaderboard.json。
 
-按 semantic_f1 降序排名，写入 leaderboard/site/leaderboard.json 供前端消费。
+按 f1 降序排名，写入 leaderboard/site/leaderboard.json 供前端消费。
 
 用法：
   python aggregate.py [--data-dir leaderboard/data] [--out leaderboard/site/leaderboard.json]
@@ -34,12 +34,9 @@ def load_entries(data_dir: Path) -> List[Dict[str, Any]]:
                 "org": meta.get("org", ""),
                 "url": meta.get("url", ""),
                 "date": meta.get("date", ""),
-                "semantic_f1": summary.get("semantic_f1", 0.0),
-                "semantic_precision": summary.get("semantic_precision", 0.0),
-                "semantic_recall": summary.get("semantic_recall", 0.0),
-                "line_f1": summary.get("line_f1", 0.0),
-                "line_precision": summary.get("line_precision", 0.0),
-                "line_recall": summary.get("line_recall", 0.0),
+                "f1": summary.get("f1", 0.0),
+                "precision": summary.get("precision", 0.0),
+                "recall": summary.get("recall", 0.0),
                 "submitted_instances": summary.get("submitted_instances", 0),
                 "total_instances": summary.get("total_instances", 0),
                 "missing_instances": summary.get("missing_instances", 0),
@@ -60,7 +57,7 @@ def main() -> None:
     args = parser.parse_args()
 
     entries = load_entries(Path(args.data_dir))
-    entries.sort(key=lambda e: e["semantic_f1"], reverse=True)
+    entries.sort(key=lambda e: e["f1"], reverse=True)
     for rank, entry in enumerate(entries, 1):
         entry["rank"] = rank
 
