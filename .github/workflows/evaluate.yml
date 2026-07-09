@@ -3,9 +3,11 @@ name: Evaluate Submission
 # 仅当 maintainer 给 PR 打上 ready-to-eval 标签时触发。
 # 用 pull_request_target 以便访问仓库 secrets（JUDGE_*），并用 environment 保护。
 #
-# 防篡改设计：评测脚本 / benchmark 一律从 base 分支（main）检出，用户在 PR 里
-# 对 evaluation/ benchmark/ 的任何改动都不会被执行；只有 submissions/ 数据取自
-# PR 分支。复算结果仍 commit 回 PR 分支。
+# 防篡改设计：
+# - 评测脚本 / benchmark 一律从 base 分支（main）检出，用户在 PR 里对
+#   evaluation/ benchmark/ 的任何改动都不会被执行；只有 submissions/ 数据取自 PR。
+# - 复算结果 leaderboard/data/<id>.json 由本 Action 直接提交到 main（可信写入），
+#   不经过 PR 分支，用户无法自带 / 伪造该文件。写入 main 会触发 publish 更新榜单。
 on:
   pull_request_target:
     types: [labeled]
@@ -20,14 +22,15 @@ jobs:
     runs-on: ubuntu-latest
     environment: evaluation      # 在此 environment 配置 JUDGE_* secrets 并限定审批者
     steps:
-      # 1) 检出 base 分支（main）的可信代码：评测脚本 + benchmark。
-      - name: Checkout trusted scripts (base branch)
+      # 1) 检出 base 分支（main）的可信代码：评测脚本 + benchmark，同时作为写回 main 的工作区。
+      - name: Checkout trusted main (scripts + write target)
         uses: actions/checkout@v5
         with:
           ref: ${{ github.event.pull_request.base.ref }}
+          fetch-depth: 0
           path: main-src
 
-      # 2) 检出 PR head 分支：仅用其 submissions/ 数据，并作为结果回写目标。
+      # 2) 检出 PR head 分支：仅取其 submissions/ 数据，只读，不执行其中任何脚本。
       - name: Checkout PR branch (submission data)
         uses: actions/checkout@v5
         with:
@@ -55,7 +58,7 @@ jobs:
           echo "$changed" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
 
-      # 用 main 的脚本 + benchmark 评测 PR 的 submissions，结果写入 pr-src 以便回写。
+      # 用 main 的脚本 + benchmark 评测 PR 的 submissions，结果直接写入 main-src 工作区。
       - name: Grade (recompute metrics)
         env:
           JUDGE_BASE_URL: ${{ secrets.JUDGE_BASE_URL }}
@@ -69,20 +72,33 @@ jobs:
             python main-src/evaluation/grade.py \
               --submission "pr-src/$dir" \
               --benchmark main-src/benchmark/aacr_bench.jsonl \
-              --out "pr-src/leaderboard/data/$sid.json" | tee -a "$report_file"
+              --out "main-src/leaderboard/data/$sid.json" | tee -a "$report_file"
           done
           echo "REPORT_FILE=$report_file" >> "$GITHUB_ENV"
 
-      - name: Commit metrics back to PR branch
-        working-directory: pr-src
+      # 直接提交到 main。用 rebase 重试规避并发推送导致的 non-fast-forward。
+      - name: Commit metrics to main
+        working-directory: main-src
         run: |
           git config user.name "aacr-bench-bot"
           git config user.email "bot@users.noreply.github.com"
           git add leaderboard/data/*.json || true
-          if ! git diff --cached --quiet; then
-            git commit -m "chore: add recomputed metrics for submission"
-            git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          if git diff --cached --quiet; then
+            echo "无新结果文件，跳过提交。"
+            exit 0
           fi
+          git commit -m "chore(eval): recomputed metrics for PR #${{ github.event.pull_request.number }}"
+          for attempt in 1 2 3; do
+            if git push origin HEAD:${{ github.event.pull_request.base.ref }}; then
+              echo "已推送到 ${{ github.event.pull_request.base.ref }}。"
+              exit 0
+            fi
+            echo "推送被拒，尝试 rebase 后重试（$attempt/3）…"
+            git fetch origin ${{ github.event.pull_request.base.ref }}
+            git rebase origin/${{ github.event.pull_request.base.ref }}
+          done
+          echo "多次重试仍无法推送到 main。" >&2
+          exit 1
 
       - name: Comment metrics on PR
         if: always()
@@ -95,5 +111,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: "🏁 **复算结果**\n\n```\n" + body + "\n```",
+              body: "🏁 **复算结果**（已写入 " + context.payload.pull_request.base.ref + "）\n\n```\n" + body + "\n```",
             });

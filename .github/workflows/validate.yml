@@ -1,10 +1,10 @@
 name: Validate Submission
 
+# 对每个 PR 运行（含每次 push 的 synchronize）。不加 paths 过滤：白名单守卫必须
+# 对所有 PR 生效，才能拦住「只改 evaluation/ 等敏感路径、不碰 submissions/」的 PR。
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    paths:
-      - "submissions/**"
 
 permissions:
   contents: read
@@ -15,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-python@v6
         with:
@@ -23,10 +25,54 @@ jobs:
       - name: Install deps
         run: pip install -r evaluation/requirements.txt
 
+      # 白名单守卫：贡献者 PR 只允许改动 submissions/<id>/** 下的文件，且只能涉及单个
+      # submission 目录。改动 evaluation/ benchmark/ schema/ .github/ leaderboard/ 或
+      # 他人目录一律判失败。结果文件 leaderboard/data/* 由 evaluate Action 写入 main，
+      # 不允许出现在 PR 中，从源头杜绝用户自带 / 伪造分数文件。
+      - name: Whitelist guard (paths)
+        id: guard
+        run: |
+          git fetch origin ${{ github.base_ref }} --depth=1
+          files=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          echo "改动文件："
+          echo "$files"
+          bad=""
+          ids=""
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            case "$f" in
+              submissions/*/*)
+                ids="$ids $(echo "$f" | awk -F/ '{print $2}')"
+                ;;
+              *)
+                bad="$bad$f\n"
+                ;;
+            esac
+          done <<< "$files"
+          uniq_ids=$(echo "$ids" | tr ' ' '\n' | sed '/^$/d' | sort -u)
+          n_ids=$(echo "$uniq_ids" | sed '/^$/d' | wc -l | tr -d ' ')
+          msg=""
+          if [ -n "$bad" ]; then
+            msg="${msg}❌ 以下文件不在允许范围内（仅可改动 \`submissions/<你的id>/**\`）：\n\`\`\`\n${bad}\`\`\`\n"
+          fi
+          if [ "$n_ids" -gt 1 ]; then
+            msg="${msg}❌ 单个 PR 只能提交一个 submission 目录，检测到多个：\n\`\`\`\n${uniq_ids}\n\`\`\`\n"
+          fi
+          if [ -z "$msg" ]; then
+            msg="✅ 路径检查通过：仅改动了 \`submissions/${uniq_ids}/**\`。"
+          fi
+          {
+            echo "message<<EOF"
+            echo -e "$msg"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+          if [ -n "$bad" ] || [ "$n_ids" -gt 1 ]; then
+            exit 1
+          fi
+
       - name: Detect changed submission dirs
         id: detect
         run: |
-          git fetch origin ${{ github.base_ref }} --depth=1
           changed=$(git diff --name-only origin/${{ github.base_ref }}...HEAD -- submissions/ \
             | awk -F/ '{print $1"/"$2}' | sort -u)
           echo "dirs<<EOF" >> "$GITHUB_OUTPUT"
@@ -52,10 +98,16 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const body = fs.readFileSync(process.env.REPORT_FILE, 'utf8') || '（无校验输出）';
+            let report = '（无校验输出）';
+            try {
+              report = fs.readFileSync(process.env.REPORT_FILE, 'utf8') || report;
+            } catch (e) { /* guard 失败时可能没有 REPORT_FILE */ }
+            const guard = process.env.GUARD_MSG || '';
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: "🤖 **自动格式校验**\n\n" + body,
+              body: "🤖 **自动格式校验**\n\n" + guard + "\n\n" + report,
             });
+        env:
+          GUARD_MSG: ${{ steps.guard.outputs.message }}
