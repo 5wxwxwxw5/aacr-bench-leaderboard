@@ -25,10 +25,11 @@ jobs:
       - name: Install deps
         run: pip install -r evaluation/requirements.txt
 
-      # 白名单守卫：贡献者 PR 只允许改动 submissions/<id>/** 下的文件，且只能涉及单个
-      # submission 目录。改动 evaluation/ benchmark/ schema/ .github/ leaderboard/ 或
-      # 他人目录一律判失败。结果文件 leaderboard/data/* 由 evaluate Action 写入 main，
-      # 不允许出现在 PR 中，从源头杜绝用户自带 / 伪造分数文件。
+      # 白名单守卫：贡献者 PR 只允许改动
+      #   1) submissions/<id>/**   （单个 submission 目录）
+      #   2) leaderboard/data/<id>.json   （evaluate 用 main 可信脚本重算后写回，且 id 必须与 1 一致）
+      # 其它路径（evaluation/ benchmark/ schema/ .github/ leaderboard/site/ 或他人目录）一律判失败。
+      # data 文件即便被用户自带也会在 evaluate 阶段被真实结果覆盖，故仅做「路径 + id 一致性」约束。
       - name: Whitelist guard (paths)
         id: guard
         run: |
@@ -37,36 +38,58 @@ jobs:
           echo "改动文件："
           echo "$files"
           bad=""
-          ids=""
+          sub_ids=""
+          data_ids=""
           while IFS= read -r f; do
             [ -z "$f" ] && continue
             case "$f" in
               submissions/*/*)
-                ids="$ids $(echo "$f" | awk -F/ '{print $2}')"
+                sub_ids="$sub_ids $(echo "$f" | awk -F/ '{print $2}')"
+                ;;
+              leaderboard/data/*.json)
+                data_ids="$data_ids $(basename "$f" .json)"
                 ;;
               *)
                 bad="$bad$f\n"
                 ;;
             esac
           done <<< "$files"
-          uniq_ids=$(echo "$ids" | tr ' ' '\n' | sed '/^$/d' | sort -u)
-          n_ids=$(echo "$uniq_ids" | sed '/^$/d' | wc -l | tr -d ' ')
+          uniq_sub=$(echo "$sub_ids" | tr ' ' '\n' | sed '/^$/d' | sort -u)
+          uniq_data=$(echo "$data_ids" | tr ' ' '\n' | sed '/^$/d' | sort -u)
+          n_sub=$(echo "$uniq_sub" | sed '/^$/d' | wc -l | tr -d ' ')
+          n_data=$(echo "$uniq_data" | sed '/^$/d' | wc -l | tr -d ' ')
           msg=""
+          fail=0
           if [ -n "$bad" ]; then
-            msg="${msg}❌ 以下文件不在允许范围内（仅可改动 \`submissions/<你的id>/**\`）：\n\`\`\`\n${bad}\`\`\`\n"
+            msg="${msg}❌ 以下文件不在允许范围内（仅可改动 \`submissions/<你的id>/**\` 与 \`leaderboard/data/<你的id>.json\`）：\n\`\`\`\n${bad}\`\`\`\n"
+            fail=1
           fi
-          if [ "$n_ids" -gt 1 ]; then
-            msg="${msg}❌ 单个 PR 只能提交一个 submission 目录，检测到多个：\n\`\`\`\n${uniq_ids}\n\`\`\`\n"
+          if [ "$n_sub" -gt 1 ]; then
+            msg="${msg}❌ 单个 PR 只能提交一个 submission 目录，检测到多个：\n\`\`\`\n${uniq_sub}\n\`\`\`\n"
+            fail=1
           fi
-          if [ -z "$msg" ]; then
-            msg="✅ 路径检查通过：仅改动了 \`submissions/${uniq_ids}/**\`。"
+          if [ "$n_sub" -eq 0 ]; then
+            msg="${msg}❌ 未检测到任何 \`submissions/<你的id>/**\` 改动，PR 必须包含一个 submission。\n"
+            fail=1
+          fi
+          # data 文件的 id 必须与唯一的 submission id 一致
+          if [ "$n_sub" -eq 1 ] && [ "$n_data" -ge 1 ]; then
+            for d in $uniq_data; do
+              if [ "$d" != "$uniq_sub" ]; then
+                msg="${msg}❌ 结果文件 \`leaderboard/data/${d}.json\` 与提交目录 \`submissions/${uniq_sub}/\` 的 id 不一致。\n"
+                fail=1
+              fi
+            done
+          fi
+          if [ "$fail" -eq 0 ]; then
+            msg="✅ 路径检查通过：仅改动了 \`submissions/${uniq_sub}/**\`。"
           fi
           {
             echo "message<<EOF"
             echo -e "$msg"
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
-          if [ -n "$bad" ] || [ "$n_ids" -gt 1 ]; then
+          if [ "$fail" -ne 0 ]; then
             exit 1
           fi
 
