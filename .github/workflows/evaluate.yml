@@ -32,7 +32,7 @@ jobs:
         id: detect
         run: |
           git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
-          changed=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- submissions/ \
+          changed=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}..HEAD -- submissions/ \
             | awk -F/ '{print $1"/"$2}' | sort -u)
           echo "dirs<<EOF" >> "$GITHUB_OUTPUT"
           echo "$changed" >> "$GITHUB_OUTPUT"
