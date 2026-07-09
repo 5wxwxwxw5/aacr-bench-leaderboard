@@ -36,12 +36,13 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["path", "content", "start_line", "end_line"],
+            "required": ["path", "content", "start_line", "end_line", "side"],
             "properties": {
               "path": { "type": "string" },
               "content": { "type": "string" },
               "start_line": { "type": ["integer", "null"] },
-              "end_line": { "type": ["integer", "null"] }
+              "end_line": { "type": ["integer", "null"] },
+              "side": { "type": "string", "enum": ["left", "right"] }
             }
           }
         },

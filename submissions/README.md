@@ -27,7 +27,9 @@ date: "2026-07-09"                           # 提交日期（可选，缺省取
 `benchmark/aacr_bench.jsonl`。格式见根目录 `schema/submission.schema.json`。
 必须字段：`instance_id` `repo` `base_commit` `head_commit` `started_at`
 `duration_seconds` `review`；`review` 内必须含 `summary`（`total_tokens`
-`input_tokens` `output_tokens`）、`comments`、`stderr`。
+`input_tokens` `output_tokens`）、`comments`、`stderr`。`comments` 中每条评论必须含
+`path` `content` `start_line` `end_line` `side`，其中 `side` 取 `"left"` 或 `"right"`
+（评审对象在 diff 左侧旧代码填 `left`，右侧新代码填 `right`）。
 
 ## 覆盖率与指标
 

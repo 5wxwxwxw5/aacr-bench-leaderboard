@@ -63,7 +63,7 @@ open-leadboard/
   "review": {
     "summary": { "total_tokens": 12197, "input_tokens": 11113, "output_tokens": 1084 },
     "comments": [
-      { "path": "docs/build_docs.py", "content": "...", "start_line": 453, "end_line": 459 }
+      { "path": "docs/build_docs.py", "content": "...", "start_line": 453, "end_line": 459, "side": "right" }
     ],
     "stderr": ""
   }
@@ -72,7 +72,8 @@ open-leadboard/
 
 必须字段：顶层 `instance_id` `repo` `base_commit` `head_commit` `started_at`
 `duration_seconds` `review`；`review.summary` 的 `total_tokens` `input_tokens`
-`output_tokens`；`review.comments`（完整保留）；`review.stderr`。
+`output_tokens`；`review.comments`（完整保留，每条含 `path` `content` `start_line`
+`end_line` `side`，其中 `side` 取 `"left"` 或 `"right"`）；`review.stderr`。
 
 ## 如何提交（贡献者）
 

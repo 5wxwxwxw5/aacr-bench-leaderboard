@@ -16,13 +16,15 @@
         "path": "src/api/providers/openai.ts",
         "content": "The condition for Azure API shape detection was incorrectly modified to check the base URL for 'deepseek'; it should verify 'azure.com' in the base URL while excluding DeepSeek models via the model ID to prevent duplicated logic.",
         "start_line": 17,
-        "end_line": 17
+        "end_line": 17,
+        "side": "right"
       },
       {
         "path": "src/api/providers/openai.ts",
         "content": "Consider adding a unit test for this branch to prevent regressions.",
         "start_line": 10,
-        "end_line": 10
+        "end_line": 10,
+        "side": "right"
       }
     ],
     "stderr": ""

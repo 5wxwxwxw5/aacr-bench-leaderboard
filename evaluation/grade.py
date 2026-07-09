@@ -124,7 +124,7 @@ def build_reference_comments(instance: Dict[str, Any]) -> List[Dict[str, Any]]:
 
 
 def build_target_comments(result: Dict[str, Any]) -> List[Dict[str, Any]]:
-    """提交结果 review.comments -> 待评测评论；side 硬编码 right。"""
+    """提交结果 review.comments -> 待评测评论；side 直接读取用户提交值。"""
     review = result.get("review")
     if not isinstance(review, dict):
         return []
@@ -140,7 +140,7 @@ def build_target_comments(result: Dict[str, Any]) -> List[Dict[str, Any]]:
             {
                 "note": note,
                 "path": finding.get("path", ""),
-                "side": "right",
+                "side": finding.get("side"),
                 "from_line": line_range["from_line"],
                 "to_line": line_range["to_line"],
             }

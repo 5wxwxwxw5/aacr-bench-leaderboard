@@ -16,13 +16,15 @@
         "path": "src/gpu/vulkan/SDL_gpu_vulkan.c",
         "content": "The reviewer suggests standardizing the conditional statement formatting by placing the opening brace on the same line as the if statement.\n\n`if (transitionToDefaultLayout) {` should replace the multi-line conditional format currently implemented.",
         "start_line": 5799,
-        "end_line": 5800
+        "end_line": 5800,
+        "side": "right"
       },
       {
         "path": "src/gpu/vulkan/SDL_gpu_vulkan.c",
         "content": "Consider adding a unit test for this branch to prevent regressions.",
         "start_line": 10,
-        "end_line": 10
+        "end_line": 10,
+        "side": "right"
       }
     ],
     "stderr": ""

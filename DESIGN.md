@@ -35,7 +35,7 @@
       "output_tokens": 1084
     },
     "comments": [
-      { "path": "docs/build_docs.py", "content": "...", "start_line": 453, "end_line": 459 }
+      { "path": "docs/build_docs.py", "content": "...", "start_line": 453, "end_line": 459, "side": "right" }
     ],
     "stderr": ""
   }
@@ -45,10 +45,11 @@
 字段要求：
 - 顶层必须：`instance_id` `repo` `base_commit` `head_commit` `started_at` `duration_seconds` `review`
 - `review.summary` 必须：`total_tokens` `input_tokens` `output_tokens`
-- `review.comments` 完全保留；每条含 `path` `content` `start_line` `end_line`
+- `review.comments` 完全保留；每条含 `path` `content` `start_line` `end_line` `side`
+  （`side` 取 `"left"` 或 `"right"`）
 - `review.stderr` 保留
 
-用 **JSON Schema**（`schema/submission.schema.json`）硬校验。judge 侧 `side` 硬编码为 `right`（reviewer 均评 diff 新增侧）。
+用 **JSON Schema**（`schema/submission.schema.json`）硬校验。`side` 直接读取用户提交值（`"left"`/`"right"`），不再硬编码。
 
 ---
 
@@ -176,7 +177,7 @@ contact: "@github_user"
 ### evaluation/grade.py（改写自 evaluate.py）
 - CLI：`grade.py --submission submissions/<id> --benchmark benchmark/aacr_bench.jsonl --out leaderboard/data/<id>.json [--line-k 1]`
 - 读 `meta.yaml` 取 reviewer / model 等元信息写入产出。
-- 保留 `build_reference_comments`（读 benchmark：text/path/start_line/end_line/side）与 `build_target_comments_from_ocr`（读 review.comments：content/path/start_line/end_line，side=right）。
+- 保留 `build_reference_comments`（读 benchmark：text/path/start_line/end_line/side）与 `build_target_comments`（读 review.comments：content/path/start_line/end_line/side，side 直接读取用户提交值）。
 - **两套计数器**（见 §3）：A 组遍历全部 196，缺文件样本记 expected、matched=0、generated=0 并记入 `missing_instance_ids`；B 组只对已提交样本累加 duration/token，平均除以 S。
 - 产出 `leaderboard/data/<id>.json`：
 
