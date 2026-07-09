@@ -1,0 +1,32 @@
+{
+  "instance_id": "libsdl-org__SDL@96dfef3",
+  "repo": "libsdl-org/SDL",
+  "base_commit": "ab34ea5a2684766e510de1daf8ae44c41b6af704",
+  "head_commit": "96dfef35c4b0b89f2f8d9c2ecc4f5e3a25d3e7a0",
+  "started_at": "2026-06-04T07:01:48Z",
+  "duration_seconds": 21.55,
+  "review": {
+    "summary": {
+      "total_tokens": 12000,
+      "input_tokens": 11000,
+      "output_tokens": 1000
+    },
+    "comments": [
+      {
+        "path": "src/gpu/vulkan/SDL_gpu_vulkan.c",
+        "content": "The reviewer suggests standardizing the conditional statement formatting by placing the opening brace on the same line as the if statement.\n\n`if (transitionToDefaultLayout) {` should replace the multi-line conditional format currently implemented.",
+        "start_line": 5799,
+        "end_line": 5800,
+        "side": "right"
+      },
+      {
+        "path": "src/gpu/vulkan/SDL_gpu_vulkan.c",
+        "content": "Consider adding a unit test for this branch to prevent regressions.",
+        "start_line": 10,
+        "end_line": 10,
+        "side": "right"
+      }
+    ],
+    "stderr": ""
+  }
+}
