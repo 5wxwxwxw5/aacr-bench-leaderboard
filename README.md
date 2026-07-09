@@ -152,9 +152,12 @@ cd leaderboard/site && python -m http.server 8000   # 打开 http://localhost:80
    也可以直接在 GitHub 网页端 Add file → Create new file 逐个上传，无需本地依赖。
 3. 向本仓库发起 Pull Request。
 4. `validate.yml` 会自动运行（不需要密钥），在 PR 下回帖格式校验报告
-   （Schema 是否通过、instance_id 是否合法、覆盖率 S/196）。若报错，修正后 push 会重跑。
+   （路径白名单是否通过、Schema 是否通过、instance_id 是否合法、覆盖率 S/196）。
+   PR 只允许改动单个 `submissions/<你的-id>/**`（以及同名的 `leaderboard/data/<你的-id>.json`），
+   触碰其它路径会判失败。若报错，修正后 push 会重跑。
 5. 校验通过后，等待 maintainer 打 `ready-to-eval` 标签触发复算。`evaluate.yml` 会用
-   仓库配置的裁判模型复算，并把 F1 / Precision / Recall / Avg Time / Avg Tokens 回帖到 PR。
+   仓库 main 分支的可信脚本复算，把 F1 / Precision / Recall / Avg Time / Avg Tokens 回帖到 PR，
+   并将 `leaderboard/data/<你的-id>.json` commit 回你的 PR 分支（随 PR 一起合并）。
 6. 合并后 `publish.yml` 会更新在线榜单。
 
 > 可以在 PR 页面的 Checks / Actions 标签查看每一步日志。
@@ -167,9 +170,11 @@ cd leaderboard/site && python -m http.server 8000   # 打开 http://localhost:80
    添加 secrets `JUDGE_BASE_URL` / `JUDGE_API_KEY` / `JUDGE_MODEL`（可加 Required reviewers 审批）。
 2. 触发复算：给已提交的 PR 打上 `ready-to-eval` 标签即可触发 `evaluate.yml`。
    首次可用仓库自带的 `submissions/example-ocr` 拉一个测试 PR 验证链路。
-3. 发布榜单：把 `leaderboard/data/<id>.json` 合并到 `main`，或在
-   Actions → Publish Leaderboard → Run workflow 手动触发，即部署到 GitHub Pages。
+3. 发布榜单：复算结果已随 PR 合并进 `main`，`publish.yml` 会自动部署；也可在
+   Actions → Publish Leaderboard → Run workflow 手动触发。
 4. 开启 Pages：`Settings → Pages → Source: GitHub Actions`，部署完成后在该页拿到榜单 URL。
+5. 分支保护：`Settings → Rules → Rulesets` 对 `main` 开启，要求状态检查 `validate` 通过
+   （建议再要求 1 个 approval），确保白名单守卫能真正拦下不合规的合并。
 
 > `evaluate.yml` 用 `pull_request_target` 以便访问仓库 secrets。fork 的 PR 默认拿不到
 > 密钥，需要 maintainer 打标签才会触发。
@@ -179,14 +184,15 @@ cd leaderboard/site && python -m http.server 8000   # 打开 http://localhost:80
 - 在 GitHub 仓库创建名为 `evaluation` 的 Environment，配置 secrets：
   `JUDGE_BASE_URL` / `JUDGE_API_KEY` / `JUDGE_MODEL`，并设置审批者，仅允许可信
   maintainer 打 `ready-to-eval` 标签触发复算（`evaluate.yml` 用 `pull_request_target`）。
+- 对 `main` 开启分支保护（Ruleset），要求 `validate` 状态检查通过，让路径白名单守卫在合并时生效。
 - 开启 GitHub Pages（Source: GitHub Actions），`publish.yml` 会在 main 更新时部署。
 
 ## 工作流
 
 | Workflow | 触发 | 作用 | 密钥 |
 |----------|------|------|------|
-| `validate.yml` | 每个 PR | JSON Schema + instance_id + 覆盖率校验，回帖 PR | 无 |
-| `evaluate.yml` | 打 `ready-to-eval` 标签 | clone-free 复算 → 写 `leaderboard/data/<id>.json` → 回帖 | JUDGE_* |
+| `validate.yml` | 每个 PR | 路径白名单守卫 + JSON Schema + instance_id + 覆盖率校验，回帖 PR | 无 |
+| `evaluate.yml` | 打 `ready-to-eval` 标签 | 用 main 可信脚本 clone-free 复算 → 写回 PR 分支 `leaderboard/data/<id>.json` → 回帖 | JUDGE_* |
 | `publish.yml` | push main | 汇总 + 部署 GitHub Pages | 无 |
 
 ## 致谢

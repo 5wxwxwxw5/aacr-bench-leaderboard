@@ -118,8 +118,8 @@ open-leadboard/
 └── .github/
     ├── PULL_REQUEST_TEMPLATE.md
     └── workflows/
-        ├── validate.yml              # pull_request：格式校验（无 secrets）
-        ├── evaluate.yml              # label 触发：复算 + 回帖 PR
+        ├── validate.yml              # pull_request：白名单守卫 + 格式校验（无 secrets）
+        ├── evaluate.yml              # label 触发：main 脚本复算 + 回写 PR 分支 + 回帖
         └── publish.yml               # push main：aggregate + 部署 Pages
 ```
 
@@ -142,20 +142,26 @@ contact: "@github_user"
 贡献者 fork → 放 submissions/<id>/ → 提 PR
   │
   ① validate.yml  (pull_request, 无 secrets)
-  │     Schema 校验 + instance_id 覆盖率 + meta.yaml 必填 → 结果贴 PR 评论
+  │     白名单守卫（仅允许 submissions/<id>/** 与匹配的 leaderboard/data/<id>.json，
+  │     且单一 submission）+ Schema 校验 + instance_id 覆盖率 + meta.yaml 必填
+  │     → 结果贴 PR 评论
   ▼
   ② evaluate.yml  (maintainer 打 ready-to-eval label 触发; pull_request_target)
-  │     pip install → python evaluation/grade.py（用 secrets.JUDGE_*）
-  │     → 产出 leaderboard/data/<id>.json → summary 表回帖 PR
+  │     从 main 检出可信脚本 + benchmark，从 PR 分支只取 submissions/ 数据
+  │     → python evaluation/grade.py（用 main 脚本 + secrets.JUDGE_*）
+  │     → 产出 leaderboard/data/<id>.json 并 commit 回 PR 分支 → summary 回帖 PR
   │     → GitHub Environment 保护 secrets，仅 maintainer 打 label 可触发
   ▼
-  Maintainer 审核合并 main
+  Maintainer 审核合并 main（submission + 复算结果一并进入 main）
   ▼
-  ③ publish.yml   (push main, paths leaderboard/data/**)
+  ③ publish.yml   (push main, paths leaderboard/data/** 或 leaderboard/site/**)
         python evaluation/aggregate.py → 部署 leaderboard/site 到 GitHub Pages
 ```
 
-说明：fork 的 PR 默认拿不到 secrets（`JUDGE_API_KEY`）。格式校验（①）对所有 PR 自动跑；需要密钥的评测（②）由 maintainer 打 label 触发，用 `pull_request_target` + GitHub Environment 管理 secrets。评测阶段只读 benchmark jsonl 和提交 JSON 做匹配。
+说明：
+- fork 的 PR 默认拿不到 secrets（`JUDGE_API_KEY`）。格式校验（①）对所有 PR 自动跑；需要密钥的评测（②）由 maintainer 打 label 触发，用 `pull_request_target` + GitHub Environment 管理 secrets。评测阶段只读 benchmark jsonl 和提交 JSON 做匹配，不 clone 被测仓库。
+- 防篡改：评测脚本与 benchmark 始终从 base 分支（main）检出，用户在 PR 里对 `evaluation/` `benchmark/` 的改动不会被执行；仅 `submissions/` 数据取自 PR 分支。复算结果由 main 脚本重算后写回 PR 分支，即便用户自带 `leaderboard/data/<id>.json` 也会被真实结果覆盖。
+- 白名单守卫 + 分支保护（required check `validate` + 1 approval）确保 PR 只能改动自己的 submission 目录与同名结果文件。
 
 ---
 
