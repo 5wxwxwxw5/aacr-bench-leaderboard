@@ -91,6 +91,32 @@ open-leadboard/
 
 `meta.yaml` 模板见 [`submissions/README.md`](submissions/README.md)。
 
+### meta.yaml 字段
+
+`meta.yaml` 是提交的元信息，复算时由 `grade.py` 读取，并显示在榜单上。
+
+| 字段 | 必填 | 含义 |
+|------|------|------|
+| `submission_name` | 是 | 提交的展示名，用于榜单详情页标题 |
+| `reviewer` | 是 | 评审系统类型：`ocr` / `claude` / `codex` / `custom` |
+| `model` | 是 | 底层模型，榜单主表 Model 列优先显示它 |
+| `org` | 否 | 团队 / 组织名 |
+| `url` | 否 | 论文或项目链接，详情页可点击 |
+| `contact` | 否 | 联系人（GitHub 用户名或邮箱） |
+| `date` | 否 | 提交日期，缺省时取复算当天 |
+
+其中 `submission_name` / `reviewer` / `model` 为必填，缺失会导致格式校验失败。示例：
+
+```yaml
+submission_name: "GPT-4o-mini + OCR"
+reviewer: ocr
+model: gpt-4o-mini
+org: "Your Team"
+url: "https://github.com/your/project"
+contact: "@your-github-handle"
+date: "2026-07-09"
+```
+
 ## 本地运行（复算 / 调试）
 
 ```bash
