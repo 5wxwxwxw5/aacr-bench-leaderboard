@@ -2,6 +2,10 @@ name: Evaluate Submission
 
 # 仅当 maintainer 给 PR 打上 ready-to-eval 标签时触发。
 # 用 pull_request_target 以便访问仓库 secrets（JUDGE_*），并用 environment 保护。
+#
+# 防篡改设计：评测脚本 / benchmark 一律从 base 分支（main）检出，用户在 PR 里
+# 对 evaluation/ benchmark/ 的任何改动都不会被执行；只有 submissions/ 数据取自
+# PR 分支。复算结果仍 commit 回 PR 分支。
 on:
   pull_request_target:
     types: [labeled]
@@ -16,31 +20,42 @@ jobs:
     runs-on: ubuntu-latest
     environment: evaluation      # 在此 environment 配置 JUDGE_* secrets 并限定审批者
     steps:
-      # 检出 PR head 分支本身（含提交的 submissions/），以便把复算结果 commit 回该分支。
-      # 已由 maintainer 审核代码无害后打标签触发。
-      - uses: actions/checkout@v5
+      # 1) 检出 base 分支（main）的可信代码：评测脚本 + benchmark。
+      - name: Checkout trusted scripts (base branch)
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+          path: main-src
+
+      # 2) 检出 PR head 分支：仅用其 submissions/ 数据，并作为结果回写目标。
+      - name: Checkout PR branch (submission data)
+        uses: actions/checkout@v5
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
+          path: pr-src
 
       - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
 
-      - name: Install deps
-        run: pip install -r evaluation/requirements.txt
+      - name: Install deps (from trusted requirements)
+        run: pip install -r main-src/evaluation/requirements.txt
 
       - name: Detect changed submission dirs
         id: detect
+        working-directory: pr-src
         run: |
-          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
-          changed=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}..HEAD -- submissions/ \
+          git remote add upstream https://github.com/${{ github.repository }}.git
+          git fetch upstream ${{ github.event.pull_request.base.ref }} --depth=1
+          changed=$(git diff --name-only upstream/${{ github.event.pull_request.base.ref }}..HEAD -- submissions/ \
             | awk -F/ '{print $1"/"$2}' | sort -u)
           echo "dirs<<EOF" >> "$GITHUB_OUTPUT"
           echo "$changed" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
 
+      # 用 main 的脚本 + benchmark 评测 PR 的 submissions，结果写入 pr-src 以便回写。
       - name: Grade (recompute metrics)
         env:
           JUDGE_BASE_URL: ${{ secrets.JUDGE_BASE_URL }}
@@ -49,16 +64,17 @@ jobs:
         run: |
           report_file=$(mktemp)
           for dir in ${{ steps.detect.outputs.dirs }}; do
-            [ -d "$dir" ] || continue
+            [ -d "pr-src/$dir" ] || continue
             sid=$(basename "$dir")
-            python evaluation/grade.py \
-              --submission "$dir" \
-              --benchmark benchmark/aacr_bench.jsonl \
-              --out "leaderboard/data/$sid.json" | tee -a "$report_file"
+            python main-src/evaluation/grade.py \
+              --submission "pr-src/$dir" \
+              --benchmark main-src/benchmark/aacr_bench.jsonl \
+              --out "pr-src/leaderboard/data/$sid.json" | tee -a "$report_file"
           done
           echo "REPORT_FILE=$report_file" >> "$GITHUB_ENV"
 
       - name: Commit metrics back to PR branch
+        working-directory: pr-src
         run: |
           git config user.name "aacr-bench-bot"
           git config user.email "bot@users.noreply.github.com"
